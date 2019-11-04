@@ -59,7 +59,13 @@ public class TerrainGenerator : MonoBehaviour
 
         if (y <= height)
         {
+            if (height < 4f)
+            {
+                return 2;
+            }
+
             return 1;
+
         } else
         {
             return 0;

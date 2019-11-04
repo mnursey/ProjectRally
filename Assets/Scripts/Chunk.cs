@@ -154,7 +154,7 @@ public class Chunk : MonoBehaviour
 
     void ComputeVoxel(int x, int y, int z, int value)
     {
-        if(value == 1)
+        if(value > 0)
         {
             float voxelRadius = voxelSize / 2f;
             float id_x = voxelSize * x - (chunkSize * voxelSize / 2f);
@@ -211,7 +211,7 @@ public class Chunk : MonoBehaviour
                                 new Vector2(1, 1),
                             });
 
-                            adjColor = colorPalette[value - 1];
+                            adjColor = colorPalette[value * 6 - 6];
 
                             if (enableHightColorCylce)
                             {
@@ -251,7 +251,7 @@ public class Chunk : MonoBehaviour
                                 new Vector2(1, 1),
                             });
 
-                            adjColor = colorPalette[value];
+                            adjColor = colorPalette[value * 6 - 5];
 
                             if (enableHightColorCylce)
                             {
@@ -291,7 +291,7 @@ public class Chunk : MonoBehaviour
                                 new Vector2(1, 1),
                             });
 
-                            adjColor = colorPalette[value + 1];
+                            adjColor = colorPalette[value * 6 - 4];
 
                             if (enableHightColorCylce)
                             {
@@ -331,7 +331,7 @@ public class Chunk : MonoBehaviour
                                 new Vector2(1, 1),
                             });
 
-                            adjColor = colorPalette[value + 2];
+                            adjColor = colorPalette[value * 6 - 3];
 
                             if (enableHightColorCylce)
                             {
@@ -371,7 +371,7 @@ public class Chunk : MonoBehaviour
                                 new Vector2(1, 1),
                             });
 
-                            adjColor = colorPalette[value + 3];
+                            adjColor = colorPalette[value * 6 - 2];
 
                             if(enableHightColorCylce)
                             {
@@ -410,7 +410,7 @@ public class Chunk : MonoBehaviour
                                 new Vector2(1, 1),
                             });
 
-                            adjColor = colorPalette[value + 4];
+                            adjColor = colorPalette[value * 6 - 1];
 
                             if (enableHightColorCylce)
                             {
