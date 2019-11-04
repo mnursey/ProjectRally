@@ -27,7 +27,7 @@ public class Chunk : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Display();
+
     }
 
     void Awake()
@@ -38,45 +38,24 @@ public class Chunk : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (!EditorApplication.isPlaying && updateInEditor)
-        //{
-        //    Display();
-        //    updateInEditor = false;
-        //}   
+        if (updateInEditor)
+        {
+            GenerateChunk();
+            updateInEditor = false;
+        }   
     }
 
-    void UpdateVoxel(int x, int y, int z, int value)
+    public void UpdateVoxel(int x, int y, int z, int value)
     {
         voxels[x, y, z] = value;
     }
 
-    void SetVoxels(int[,,] voxels)
+    public void SetVoxels(int[,,] voxels)
     {
         this.voxels = voxels;
     }
 
-    void Display()
-    {
-        for (int x = 0; x < voxels.GetLength(0); x++)
-        {
-            for (int y = 0; y < voxels.GetLength(1); y++)
-            {
-                for (int z = 0; z < voxels.GetLength(2); z++)
-                {
-                    float height = ((Mathf.Cos(x * 0.5f) * 3f + 7f) + (Mathf.Cos(z * 0.5f) * 3f + 7f)) / 2;
-
-                    if(y <= height)
-                    {
-                        voxels[x, y, z] = 1;
-                    }
-                }
-            }
-        }
-
-        GenerateChunk();
-    }
-
-    void GenerateChunk()
+    public void GenerateChunk()
     {
         Reset();
 

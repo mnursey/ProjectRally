@@ -38,11 +38,22 @@ public class TerrainGenerator : MonoBehaviour
         }
     }
 
-    float Generator(int x, int y, int z)
+    int Generator(int x, int y, int z)
     {
-        float height = ((Mathf.Cos(x * 0.5f) * 3f + 7f) + (Mathf.Cos(z * 0.5f) * 3f + 7f)) / 2;
+        Vector3[] generatorOctaves = new Vector3[] {
+            // Frequency, Amplitude, Offset
+            new Vector3(0.01f, 10f, 0f),
+            new Vector3(0.05f, 2f, 0f),
+            new Vector3(0.1f, 1f, 0f),
+        };
 
-        Debug.Log(height);
+        float height = 0.0f;
+
+        foreach(Vector3 v in generatorOctaves)
+        {
+            height += Mathf.PerlinNoise((x + v.z) * v.x, (z + v.z) * v.x) * v.y;
+        }
+
         if (y <= height)
         {
             return 1;
@@ -50,6 +61,24 @@ public class TerrainGenerator : MonoBehaviour
         {
             return 0;
         }
+    }
+
+    int[,,] GetChunkVoxels(int chunkX, int chunkY, int chunkZ)
+    {
+        int[,,] voxels = new int[Chunk.chunkSize, Chunk.chunkSize, Chunk.chunkSize];
+
+        for (int x = 0; x < voxels.GetLength(0); x++)
+        {
+            for (int y = 0; y < voxels.GetLength(1); y++)
+            {
+                for (int z = 0; z < voxels.GetLength(2); z++)
+                {
+                    voxels[x, y, z] = Generator(x + chunkX * Chunk.chunkSize, y + chunkY * Chunk.chunkSize, z + chunkZ * Chunk.chunkSize);
+                }
+            }
+        }
+
+        return voxels;
     }
 
     public void GenerateTerrain()
@@ -75,9 +104,15 @@ public class TerrainGenerator : MonoBehaviour
             for (int chunkZ = 0; chunkZ < numberOfChunksZ; chunkZ++)
             {
                 float chunkOffset = (Chunk.chunkSize * voxelSize / 2f);
-                GameObject newChunk = Instantiate(chunkPrefab, new Vector3(chunkX * chunkOffset - (Chunk.chunkSize * voxelSize / 2f * numberOfChunksX / 2f) - this.transform.position.x, this.transform.position.y, chunkZ * chunkOffset - (Chunk.chunkSize * voxelSize / 2f * numberOfChunksZ / 2f) - this.transform.position.z), Quaternion.identity);
-                newChunk.transform.parent = this.transform;
-                chunks[chunkX].Add(newChunk.GetComponent<Chunk>());
+                GameObject newChunkGameObject = Instantiate(chunkPrefab, new Vector3(chunkX * chunkOffset - (Chunk.chunkSize * voxelSize / 2f * numberOfChunksX / 2f) - this.transform.position.x, this.transform.position.y, chunkZ * chunkOffset - (Chunk.chunkSize * voxelSize / 2f * numberOfChunksZ / 2f) - this.transform.position.z), Quaternion.identity);
+                newChunkGameObject.transform.parent = this.transform;
+
+                Chunk chunk = newChunkGameObject.GetComponent<Chunk>();
+
+                chunks[chunkX].Add(chunk);
+
+                chunk.SetVoxels(GetChunkVoxels(chunkX, 0, chunkZ));
+                chunk.GenerateChunk();
             }
         }
     }
