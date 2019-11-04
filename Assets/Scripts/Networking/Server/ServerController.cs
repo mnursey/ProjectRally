@@ -18,7 +18,7 @@ public enum ServerState {OFF, WAITING_TO_START, SETUP_GAME, STARTING, ANIMATION,
 public class ServerController : MonoBehaviour {
 	
 	ServerConnectionListener cl;
-	ServerConnectionHandler ch;
+	public ServerConnectionHandler ch;
 	GameRunner gr;
 
 	public ServerState state;
@@ -294,10 +294,10 @@ public class ServerController : MonoBehaviour {
 	}
 }
 
-
+[Serializable]
 public class ServerConnectionHandler {
 
-	List<ConnectionObject> connections;
+	public List<ConnectionObject> connections;
 	IncomingDataCallback incomingDataCallback;
 
 	public ServerConnectionHandler(IncomingDataCallback incomingDataCallback) {
@@ -363,18 +363,49 @@ public class ServerConnectionHandler {
 		} 
 	}
 
+    bool CheckIfSocketIsConnected(Socket s)
+    {
+        if(!s.Connected)
+        {
+            return false;
+        }
+
+        bool part1 = s.Poll(1000, SelectMode.SelectRead);
+        bool part2 = (s.Available == 0);
+
+        if (part1 && part2)
+        {
+            return false;
+        } else
+        {
+            return true;
+        }
+    }
+
 	public void CloseConnection(ConnectionObject co) {
 		if(co != null && co.socket != null) {
-			if(co.socket.Connected) {
-				co.socket.Shutdown(SocketShutdown.Both);
+			if(CheckIfSocketIsConnected(co.socket)) {
+				co.socket.Shutdown(SocketShutdown.Send);
 			}
 
 			co.socket.Close();
 		}
 
-		bool r = connections.Remove(co);
+        int removeIndex = -1;
+        for(int i = 0; i < connections.Count; i++)
+        {
+            if(connections[i].serverPlayerID == co.serverPlayerID)
+            {
+                removeIndex = i;
+                break;
+            }
+        }
 
-        if(!r)
+        if(removeIndex > -1)
+        {
+            connections.RemoveAt(removeIndex);
+        }
+        else
         {
             Debug.LogWarning("Could not remove connection object");
         }

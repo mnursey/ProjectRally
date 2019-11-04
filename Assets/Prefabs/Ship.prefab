@@ -132,8 +132,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.32941177, b: 0.32941177, a: 0.2509804}
-      key1: {r: 1, g: 0.32941177, b: 0.32941177, a: 0.2509804}
+      key0: {r: 1, g: 0, b: 0, a: 0.627451}
+      key1: {r: 1, g: 0, b: 0, a: 0.627451}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -313,9 +313,9 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.34901962, b: 0, a: 0.23529412}
-      key1: {r: 1, g: 0.34901962, b: 0, a: 0.23529412}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 1, g: 0.34901962, b: 0, a: 0.627451}
+      key1: {r: 1, g: 0.34901962, b: 0, a: 0.627451}
+      key2: {r: 0, g: 0, b: 0, a: 0.23529412}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -331,7 +331,7 @@ LineRenderer:
       ctime7: 0
       atime0: 0
       atime1: 65535
-      atime2: 0
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -464,8 +464,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.8627451, g: 1, b: 0, a: 0.2509804}
-      key1: {r: 0.8627451, g: 1, b: 0, a: 0.2509804}
+      key0: {r: 0.8627451, g: 1, b: 0, a: 0.627451}
+      key1: {r: 0.8627451, g: 1, b: 0, a: 0.627451}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -480,7 +480,7 @@ LineRenderer:
       ctime5: 0
       ctime6: 0
       ctime7: 0
-      atime0: 0
+      atime0: 386
       atime1: 65535
       atime2: 0
       atime3: 0
@@ -541,7 +541,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 147110}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000016292068}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: -3, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -755,8 +755,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.32941177, g: 0.7764706, b: 0.24313726, a: 0.49019608}
-      key1: {r: 0.32941177, g: 0.7764706, b: 0.24313726, a: 0.49019608}
+      key0: {r: 0.32941177, g: 0.7764706, b: 0.24313726, a: 0.627451}
+      key1: {r: 0.32941177, g: 0.7764706, b: 0.24313726, a: 0.627451}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

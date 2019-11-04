@@ -16,6 +16,9 @@ public class TerrainGenerator : MonoBehaviour
     public List<List<Chunk>> chunks = new List<List<Chunk>>();
     public bool updateInEditor = false;
     public bool reset = false;
+
+    public List<Color> chunkColorPalette = new List<Color>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,7 +46,7 @@ public class TerrainGenerator : MonoBehaviour
         Vector3[] generatorOctaves = new Vector3[] {
             // Frequency, Amplitude, Offset
             new Vector3(0.01f, 10f, 0f),
-            new Vector3(0.05f, 2f, 0f),
+            new Vector3(0.05f, 3f, 0f),
             new Vector3(0.1f, 1f, 0f),
         };
 
@@ -112,6 +115,8 @@ public class TerrainGenerator : MonoBehaviour
                 chunks[chunkX].Add(chunk);
 
                 chunk.SetVoxels(GetChunkVoxels(chunkX, 0, chunkZ));
+                chunk.SetColorPalette(chunkColorPalette);
+                chunk.EnableHightColorCylce(true);
                 chunk.GenerateChunk();
             }
         }

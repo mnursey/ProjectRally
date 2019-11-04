@@ -16,9 +16,15 @@ public class Chunk : MonoBehaviour
     List<Vector2> uv = new List<Vector2>();
     List<Color> colors = new List<Color>();
 
+    List<Color> colorPalette = new List<Color>(); 
+
     MeshFilter mf;
 
     int[,,] voxels = new int[chunkSize, chunkSize, chunkSize];
+
+    public float colorHeightDelta = 0.02f;
+    public int heightColorCycle = 3;
+    private bool enableHightColorCylce = false;
 
     public Color topColor = new Color(96 / 256f, 128 / 256f, 56 / 256f);
     public Color remainingColor = Color.gray;
@@ -43,6 +49,15 @@ public class Chunk : MonoBehaviour
             GenerateChunk();
             updateInEditor = false;
         }   
+    }
+
+    public void EnableHightColorCylce(bool enable) {
+        enableHightColorCylce = enable;
+    }
+
+    public void SetColorPalette(List<Color> palette)
+    {
+        colorPalette = palette;
     }
 
     public void UpdateVoxel(int x, int y, int z, int value)
@@ -170,6 +185,7 @@ public class Chunk : MonoBehaviour
                 if(openFaces[f])
                 {
                     int tOffset = vertices.Count + v.Count;
+                    Color adjColor;
 
                     switch (f)
                     {
@@ -195,11 +211,20 @@ public class Chunk : MonoBehaviour
                                 new Vector2(1, 1),
                             });
 
+                            adjColor = colorPalette[value - 1];
+
+                            if (enableHightColorCylce)
+                            {
+                                adjColor.r += (y % heightColorCycle) * colorHeightDelta;
+                                adjColor.g += (y % heightColorCycle) * colorHeightDelta;
+                                adjColor.b += (y % heightColorCycle) * colorHeightDelta;
+                            }
+
                             c.AddRange(new List<Color> {
-                                remainingColor,
-                                remainingColor,
-                                remainingColor,
-                                remainingColor,
+                                adjColor,
+                                adjColor,
+                                adjColor,
+                                adjColor,
                             });
 
                             break;
@@ -226,11 +251,20 @@ public class Chunk : MonoBehaviour
                                 new Vector2(1, 1),
                             });
 
+                            adjColor = colorPalette[value];
+
+                            if (enableHightColorCylce)
+                            {
+                                adjColor.r += (y % heightColorCycle) * colorHeightDelta;
+                                adjColor.g += (y % heightColorCycle) * colorHeightDelta;
+                                adjColor.b += (y % heightColorCycle) * colorHeightDelta;
+                            }
+
                             c.AddRange(new List<Color> {
-                                remainingColor,
-                                remainingColor,
-                                remainingColor,
-                                remainingColor,
+                                adjColor,
+                                adjColor,
+                                adjColor,
+                                adjColor,
                             });
 
                             break;
@@ -257,11 +291,20 @@ public class Chunk : MonoBehaviour
                                 new Vector2(1, 1),
                             });
 
+                            adjColor = colorPalette[value + 1];
+
+                            if (enableHightColorCylce)
+                            {
+                                adjColor.r += (y % heightColorCycle) * colorHeightDelta;
+                                adjColor.g += (y % heightColorCycle) * colorHeightDelta;
+                                adjColor.b += (y % heightColorCycle) * colorHeightDelta;
+                            }
+
                             c.AddRange(new List<Color> {
-                                remainingColor,
-                                remainingColor,
-                                remainingColor,
-                                remainingColor,
+                                adjColor,
+                                adjColor,
+                                adjColor,
+                                adjColor,
                             });
 
                             break;
@@ -288,11 +331,20 @@ public class Chunk : MonoBehaviour
                                 new Vector2(1, 1),
                             });
 
+                            adjColor = colorPalette[value + 2];
+
+                            if (enableHightColorCylce)
+                            {
+                                adjColor.r += (y % heightColorCycle) * colorHeightDelta;
+                                adjColor.g += (y % heightColorCycle) * colorHeightDelta;
+                                adjColor.b += (y % heightColorCycle) * colorHeightDelta;
+                            }
+
                             c.AddRange(new List<Color> {
-                                remainingColor,
-                                remainingColor,
-                                remainingColor,
-                                remainingColor,
+                                adjColor,
+                                adjColor,
+                                adjColor,
+                                adjColor,
                             });
 
                             break;
@@ -319,11 +371,20 @@ public class Chunk : MonoBehaviour
                                 new Vector2(1, 1),
                             });
 
+                            adjColor = colorPalette[value + 3];
+
+                            if(enableHightColorCylce)
+                            {
+                                adjColor.r += (y % heightColorCycle) * colorHeightDelta;
+                                adjColor.g += (y % heightColorCycle) * colorHeightDelta;
+                                adjColor.b += (y % heightColorCycle) * colorHeightDelta;
+                            }
+
                             c.AddRange(new List<Color> {
-                                topColor,
-                                topColor,
-                                topColor,
-                                topColor,
+                                adjColor,
+                                adjColor,
+                                adjColor,
+                                adjColor,
                             });
 
                             break;
@@ -349,11 +410,20 @@ public class Chunk : MonoBehaviour
                                 new Vector2(1, 1),
                             });
 
+                            adjColor = colorPalette[value + 4];
+
+                            if (enableHightColorCylce)
+                            {
+                                adjColor.r += (y % heightColorCycle) * colorHeightDelta;
+                                adjColor.g += (y % heightColorCycle) * colorHeightDelta;
+                                adjColor.b += (y % heightColorCycle) * colorHeightDelta;
+                            }
+
                             c.AddRange(new List<Color> {
-                                remainingColor,
-                                remainingColor,
-                                remainingColor,
-                                remainingColor,
+                                adjColor,
+                                adjColor,
+                                adjColor,
+                                adjColor,
                             });
 
                             break;

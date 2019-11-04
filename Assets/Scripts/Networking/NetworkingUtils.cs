@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
+[Serializable]
 public class ConnectionObject {
 	public Socket socket = null;
 	public const int BufferSize = 2048;

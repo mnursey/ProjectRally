@@ -23,9 +23,12 @@ public class GameRunner : MonoBehaviour {
 	int shipIDTracker = 0;
     int playerID = -1;
 
-    float squareBound = 30f;
+    public float squareBoundXPos = 24f;
+    public float squareBoundXNeg = -32f;
+    public float squareBoundZPos = 24f;
+    public float squareBoundZNeg = -32;
 
-	float turnTimer = 30f;
+    float turnTimer = 30f;
 	float simDelta = 0.01f;
 
 	float simTime = 0.0f;
@@ -428,7 +431,7 @@ public class GameRunner : MonoBehaviour {
                 // Check if ship is out of bounds
                 // Take damage if ship is out of bounds
 
-                if(sc.transform.position.x > squareBound || sc.transform.position.x < -squareBound || sc.transform.position.z > squareBound || sc.transform.position.z < -squareBound)
+                if(sc.transform.position.x > squareBoundXPos || sc.transform.position.x < squareBoundXNeg || sc.transform.position.z > squareBoundZPos || sc.transform.position.z < squareBoundZNeg)
                 {
                     sc.TakeDamage(1, true);
                 }

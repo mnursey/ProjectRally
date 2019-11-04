@@ -92,6 +92,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   voxelSize: 0.5
+  colorHeightDelta: 0.05
+  heightColorCycle: 5
   topColor: {r: 0.34115785, g: 0.5377358, b: 0.1445799, a: 1}
   remainingColor: {r: 0.30980393, g: 0.3137255, b: 0.31764707, a: 1}
   updateInEditor: 0
