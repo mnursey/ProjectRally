@@ -218,7 +218,7 @@ public class ClientConnectionHandler {
 	ClientConnectedCallback connectedCallback;
 	ClientReceiveCallback receiveCallback;
 
-	public ClientConnectionHandler(ClientConnectedCallback ccb, ClientReceiveCallback crb) {
+    public ClientConnectionHandler(ClientConnectedCallback ccb, ClientReceiveCallback crb) {
 		connectedCallback = ccb;
 		receiveCallback = crb;
 	}
@@ -237,8 +237,9 @@ public class ClientConnectionHandler {
 		co.socket.EndConnect(ar);
 
 		Debug.Log("Client connected to " + co.socket.RemoteEndPoint.ToString());
+        co.socketConnected = true;
 
-		BeginReceive();
+        BeginReceive();
 
 		if(connectedCallback != null) {
 			connectedCallback();
@@ -246,8 +247,11 @@ public class ClientConnectionHandler {
 	}
 
 	private void BeginReceive() {
-		co.socket.BeginReceive(co.buffer, 0, ConnectionObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), null);
-	}
+        if(CheckIfSocketIsConnected(co.socket))
+        {
+            co.socket.BeginReceive(co.buffer, 0, ConnectionObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), null);
+        }
+    }
 
 	private void ReceiveCallback(IAsyncResult ar) {
 		String data = String.Empty;
@@ -262,9 +266,12 @@ public class ClientConnectionHandler {
 			co.stringBuilder.Length = 0;
 		}
 
-		BeginReceive();
+        if(CheckIfSocketIsConnected(co.socket))
+        {
+            BeginReceive();
+        }
 
-		if(receiveCallback != null) {
+        if (receiveCallback != null) {
 			receiveCallback(data);
 		}
 	}
@@ -280,7 +287,7 @@ public class ClientConnectionHandler {
 			Debug.LogWarning("Message length is larger then max buffer size");
 		}
 			
-		if(co.socket.Connected) {
+		if(co.socketConnected && co.socket.Connected) {
 			co.socket.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), cb);
 		} else {
 			Debug.LogWarning("Did not send message because client was not connected");
@@ -288,17 +295,21 @@ public class ClientConnectionHandler {
 	}
 
 	private void SendCallback(IAsyncResult ar) {
-		int bytesSend = co.socket.EndSend(ar);
+        if(CheckIfSocketIsConnected(co.socket))
+        {
+            int bytesSend = co.socket.EndSend(ar);
 
-		if(ar.AsyncState != null) {
-			ClientOnSendCallback cb = (ClientOnSendCallback)ar.AsyncState;
-			cb();
-		}
+            if (ar.AsyncState != null)
+            {
+                ClientOnSendCallback cb = (ClientOnSendCallback)ar.AsyncState;
+                cb();
+            }
+        }
 	}
 
     bool CheckIfSocketIsConnected(Socket s)
     {
-        if (!s.Connected)
+        if (!s.Connected || !co.socketConnected)
         {
             return false;
         }
@@ -323,6 +334,7 @@ public class ClientConnectionHandler {
 			}
 
 			co.socket.Close();
+            co.socketConnected = false;
 		}
 	}
 }

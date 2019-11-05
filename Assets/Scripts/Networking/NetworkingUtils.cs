@@ -14,6 +14,7 @@ public class ConnectionObject {
 	public byte[] buffer = new byte[BufferSize];
 	public StringBuilder stringBuilder = new StringBuilder();
 	public int serverPlayerID = -1;
+    public volatile bool socketConnected = false;
 
 	public ConnectionObject(Socket socket, int serverPlayerID) {
 		this.socket = socket;

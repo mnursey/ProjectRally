@@ -326,7 +326,14 @@ public class ServerConnectionHandler {
 			sco.stringBuilder.Length = 0;
 		}
 
-		s.BeginReceive(sco.buffer, 0, ConnectionObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), sco);
+        if (s.Connected)
+        {
+            s.BeginReceive(sco.buffer, 0, ConnectionObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), sco);
+        }
+        else
+        {
+            CloseConnection(sco);
+        }
 
 		if(incomingDataCallback != null) {
 			incomingDataCallback(sco, data);
@@ -389,6 +396,7 @@ public class ServerConnectionHandler {
 			}
 
 			co.socket.Close();
+            co.socketConnected = false;
 		}
 
         int removeIndex = -1;
@@ -469,6 +477,7 @@ public class ServerConnectionListener {
 		Socket handler = listener.EndAccept(ar);
 		handler.NoDelay = true;
 		ConnectionObject sco = new ConnectionObject(handler);
+        sco.socketConnected = true;
 
 		Debug.Log("Listener made connection");
 
