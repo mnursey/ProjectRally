@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour {
     private float maxTurnTime = 0.0f;
     private float currentTurnTime = 0.0f;
     private bool enableTurnTimer = false;
+    private bool loadUINeeded = false;
 
 	void Start () {
         clientController = GetComponent<ClientController>();
@@ -51,14 +52,36 @@ public class PlayerController : MonoBehaviour {
 
     public void ShowMainMenu()
     {
-        uiController.EnableMainMenuUI(true);
+        uiController.EnableMainMenuUI(true, null);
         uiController.DisableGameUI();
+    }
+
+    void EnableLoadUI()
+    {
+        if(loadUINeeded)
+        {
+            uiController.EnableLoadUI(true, "Connecting to server...");
+        }
     }
 
     public void ConnectToGame()
     {
-        uiController.EnableMainMenuUI(false);
+        uiController.EnableMainMenuUI(false, EnableLoadUI);
         clientController.Connect();
+        loadUINeeded = true;
+    }
+
+    public void OnFailedToConnect()
+    {
+        ShowMainMenu();
+        uiController.EnableLoadUI(false, "");
+        loadUINeeded = false;
+    }
+
+    public void OnConnected()
+    {
+        uiController.EnableLoadUI(false, "");
+        loadUINeeded = false;
     }
 
     public void SetTurnTimer(float maxTurnTime)

@@ -12,7 +12,7 @@ public delegate void ClientReceiveCallback (String data);
 public delegate void ClientOnSendCallback ();
 
 [Serializable]
-public enum ClientState {IDLE, JOINING, JOINED, BEGIN_ANIMATION, ANIMATION, COMMAND, PROCESSING, DISCONNECTING}
+public enum ClientState {IDLE, JOINING, JOIN_ACCEPTED, JOINED, BEGIN_ANIMATION, ANIMATION, COMMAND, PROCESSING, DISCONNECTING}
 
 public class ClientController : MonoBehaviour {
 
@@ -26,6 +26,9 @@ public class ClientController : MonoBehaviour {
 	public string msg;
 	public ClientState state;
 	GameState newGameState;
+
+    public float connectionTimeOut = 15.0f;
+    private float connectionTimeOutTimer = 0.0f;
 
     private float timeSinceLastAnim = 0.0f;
     private float targetAnimDelay = 16.0f / 1000.0f;
@@ -50,6 +53,7 @@ public class ClientController : MonoBehaviour {
         if(state == ClientState.IDLE)
         {
             state = ClientState.JOINING;
+            connectionTimeOutTimer = 0.0f;
             ch.Connect(ip, port);
         }
 	}
@@ -61,6 +65,26 @@ public class ClientController : MonoBehaviour {
 			send = false;
 			SendMsg(msg);
 		}
+
+        if(state == ClientState.JOINING)
+        {
+            connectionTimeOutTimer += Time.deltaTime;
+
+            if(connectionTimeOutTimer > connectionTimeOut)
+            {
+                state = ClientState.DISCONNECTING;
+                Debug.LogWarning("Client could not connect to server");
+                EnableSafeToDisconnect();
+                playerController.OnFailedToConnect();
+            }
+        }
+
+        if(state == ClientState.JOIN_ACCEPTED)
+        {
+            state = ClientState.JOINED;
+            gr.Reset(playerController.playerID);
+            playerController.OnConnected();
+        }
 
 		if(state == ClientState.BEGIN_ANIMATION) {
 			gr.SetCommands(newGameState.cmds);
@@ -161,13 +185,13 @@ public class ClientController : MonoBehaviour {
 		int playerID = int.Parse(inmsg.content);
 
 		if(playerID > -1) {
-			state = ClientState.JOINED;
-			Debug.Log("Client Joined Server. PlayerID is " + playerID + " ... Waiting for game to start");
+            this.state = ClientState.JOIN_ACCEPTED;
+            Debug.Log("Client Joined Server. PlayerID is " + playerID + " ... Waiting for game to start");
 			playerController.playerID = playerID;
-            gr.Reset(playerController.playerID);
-		} else {
+        } else {
 			Debug.Log("Client was not allowed to connect... Disconnecting");
 			SendDisconnect();
+            playerController.OnFailedToConnect();
 		}
 	}
 

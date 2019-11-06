@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI; 
 using System;
 using System.Collections.Generic;
+using TMPro;
 
 public class UIController : MonoBehaviour {
 
@@ -22,6 +23,7 @@ public class UIController : MonoBehaviour {
     public GameObject infoUI;
     public GameObject endUI;
     public GameObject menuUI;
+    public GameObject loadUI;
 
     public Color selectedColor = Color.yellow;
 	private Color defaultColor;
@@ -99,6 +101,12 @@ public class UIController : MonoBehaviour {
         winText.enabled = enable;
     }
 
+    public void EnableLoadUI(bool enable, string text)
+    {
+        loadUI.SetActive(enable);
+        loadUI.GetComponentInChildren<TextMeshProUGUI>().text = text;
+    }
+
     public void EnableWinText(bool enable, bool won) { 
 
         if(won)
@@ -163,9 +171,17 @@ public class UIController : MonoBehaviour {
         endUI.SetActive(enable);
     }
 
-    public void EnableMainMenuUI(bool enable)
+    public void EnableMainMenuUI(bool enable, AnimCallback cb)
     {
-        menuUI.SetActive(enable);
+        menuUI.GetComponent<AnimationUtils>().cb = cb;
+
+        if(enable)
+        {
+            menuUI.SetActive(enable);
+        } else
+        {
+            menuUI.GetComponent<Animator>().SetTrigger("Exit");
+        }
     }
 
     public void FindGame()

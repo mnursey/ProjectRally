@@ -378,7 +378,7 @@ public class ServerConnectionHandler {
         }
 
         bool part1 = s.Poll(1000, SelectMode.SelectRead);
-        bool part2 = (s.Available == 0);
+        bool part2 = part1 ? (s.Available == 0) : false;
 
         if (part1 && part2)
         {
