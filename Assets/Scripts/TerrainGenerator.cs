@@ -19,10 +19,16 @@ public class TerrainGenerator : MonoBehaviour
 
     public List<Color> chunkColorPalette = new List<Color>();
 
+    private bool generateTerrain = false;
+    private bool finishedGeneration = false;
+    private int genX = 0;
+    private int genY = 0;
+    private int genZ = 0;
+
     // Start is called before the first frame update
     void Start()
     {
-        GenerateTerrain();
+        BeginTerrainGeneration();
     }
 
     // Update is called once per frame
@@ -34,6 +40,11 @@ public class TerrainGenerator : MonoBehaviour
         //    GenerateTerrain();
         //}
         
+        if(generateTerrain && !finishedGeneration)
+        {
+            GenerateTerrain();
+        }
+
         if(reset)
         {
             reset = false;
@@ -90,13 +101,13 @@ public class TerrainGenerator : MonoBehaviour
         return voxels;
     }
 
-    public void GenerateTerrain()
+    public void BeginTerrainGeneration()
     {
-        // Create chunks
-        // Set each chunks terrain -> use terrain generator
-        // Render each chunk
+        generateTerrain = true;
+        finishedGeneration = false;
 
-        foreach(List<Chunk> l in chunks.ToArray())
+
+        foreach (List<Chunk> l in chunks.ToArray())
         {
             foreach (Chunk c in l.ToArray())
             {
@@ -106,24 +117,45 @@ public class TerrainGenerator : MonoBehaviour
 
         chunks = new List<List<Chunk>>();
 
-        for (int chunkX = 0; chunkX < numberOfChunksX; chunkX++)
+        chunks.Add(new List<Chunk>());
+
+        genX = 0;
+        genY = 0;
+        genZ = 0;
+    }
+
+    public void GenerateTerrain()
+    {
+        // Create chunks
+        // Set each chunks terrain -> use terrain generator
+        // Render each chunk
+
+        if(genX < numberOfChunksX && genZ < numberOfChunksZ)
         {
-            chunks.Add(new List<Chunk>());
+            float chunkOffset = (Chunk.chunkSize * voxelSize / 2f);
+            GameObject newChunkGameObject = Instantiate(chunkPrefab, new Vector3(genX * chunkOffset - (Chunk.chunkSize * voxelSize / 2f * numberOfChunksX / 2f) - this.transform.position.x, this.transform.position.y, genZ * chunkOffset - (Chunk.chunkSize * voxelSize / 2f * numberOfChunksZ / 2f) - this.transform.position.z), Quaternion.identity);
+            newChunkGameObject.transform.parent = this.transform;
 
-            for (int chunkZ = 0; chunkZ < numberOfChunksZ; chunkZ++)
+            Chunk chunk = newChunkGameObject.GetComponent<Chunk>();
+
+            chunks[genX].Add(chunk);
+
+            chunk.SetVoxels(GetChunkVoxels(genX, 0, genZ));
+            chunk.SetColorPalette(chunkColorPalette);
+            chunk.EnableHightColorCylce(true);
+            chunk.GenerateChunk();
+
+            genZ++;
+
+            if(genZ == numberOfChunksZ)
             {
-                float chunkOffset = (Chunk.chunkSize * voxelSize / 2f);
-                GameObject newChunkGameObject = Instantiate(chunkPrefab, new Vector3(chunkX * chunkOffset - (Chunk.chunkSize * voxelSize / 2f * numberOfChunksX / 2f) - this.transform.position.x, this.transform.position.y, chunkZ * chunkOffset - (Chunk.chunkSize * voxelSize / 2f * numberOfChunksZ / 2f) - this.transform.position.z), Quaternion.identity);
-                newChunkGameObject.transform.parent = this.transform;
+                genX++;
+                genZ = 0;
 
-                Chunk chunk = newChunkGameObject.GetComponent<Chunk>();
-
-                chunks[chunkX].Add(chunk);
-
-                chunk.SetVoxels(GetChunkVoxels(chunkX, 0, chunkZ));
-                chunk.SetColorPalette(chunkColorPalette);
-                chunk.EnableHightColorCylce(true);
-                chunk.GenerateChunk();
+                if(genX < numberOfChunksX)
+                {
+                    chunks.Add(new List<Chunk>());
+                }
             }
         }
     }
