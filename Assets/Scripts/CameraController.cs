@@ -4,49 +4,14 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-/// <summary>
-/// A simple free camera to be added to a Unity game object.
-/// 
-/// Keys:
-///	wasd / arrows	- movement
-///	q/e 			- up/down (local space)
-///	r/f 			- up/down (world space)
-///	pageup/pagedown	- up/down (world space)
-///	hold shift		- enable fast movement mode
-///	right mouse  	- enable free look
-///	mouse			- free look / rotation
-///     
-/// </summary>
 public class CameraController : MonoBehaviour
 {
-	/// <summary>
-	/// Normal speed of camera movement.
-	/// </summary>
 	public float movementSpeed = 10f;
-
-	/// <summary>
-	/// Speed of camera movement when shift is held down,
-	/// </summary>
 	public float fastMovementSpeed = 100f;
-
-	/// <summary>
-	/// Sensitivity for free look.
-	/// </summary>
 	public float freeLookSensitivity = 3f;
-
-	/// <summary>
-	/// Amount to zoom the camera when using the mouse wheel.
-	/// </summary>
 	public float zoomSensitivity = 10f;
-
-	/// <summary>
-	/// Amount to zoom the camera when using the mouse wheel (fast mode).
-	/// </summary>
-	public float fastZoomSensitivity = 50f;
-
-	/// <summary>
-	/// Set to true when free looking (on right mouse button).
-	/// </summary>
+    public float fastZoomSensitivity = 50f;
+    public float xLock = 1f;
 	private bool looking = false;
 
 	void Update()
@@ -97,8 +62,20 @@ public class CameraController : MonoBehaviour
 		if (looking)
 		{
 			float newRotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * freeLookSensitivity;
-			float newRotationY = transform.localEulerAngles.x - Input.GetAxis("Mouse Y") * freeLookSensitivity;
-			transform.localEulerAngles = new Vector3(newRotationY, newRotationX, 0f);
+            float newRotationY = transform.localEulerAngles.x - Input.GetAxis("Mouse Y") * freeLookSensitivity;
+
+            if (newRotationY > 90f - xLock && newRotationY < 180f)
+            {
+                newRotationY = 90f - xLock;
+            }
+
+
+            if (newRotationY < 270f + xLock && newRotationY > 180f)
+            {
+                newRotationY = 270f + xLock;
+            }
+
+            transform.localEulerAngles = new Vector3(newRotationY, newRotationX, 0f);
 		}
 
 		float axis = Input.GetAxis("Mouse ScrollWheel");
@@ -123,9 +100,6 @@ public class CameraController : MonoBehaviour
 		StopLooking();
 	}
 
-	/// <summary>
-	/// Enable free looking.
-	/// </summary>
 	public void StartLooking()
 	{
 		looking = true;
@@ -133,9 +107,6 @@ public class CameraController : MonoBehaviour
 		Cursor.lockState = CursorLockMode.Locked;
 	}
 
-	/// <summary>
-	/// Disable free looking.
-	/// </summary>
 	public void StopLooking()
 	{
 		looking = false;
