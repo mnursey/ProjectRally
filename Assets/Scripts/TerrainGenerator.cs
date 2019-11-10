@@ -13,7 +13,10 @@ public class TerrainGenerator : MonoBehaviour
 
     public int seed = 0;
     public GameObject chunkPrefab;
+
     public List<List<Chunk>> chunks = new List<List<Chunk>>();
+    public IDictionary<string, Chunk> chunkLookup = new Dictionary<string, Chunk>();
+
     public bool updateInEditor = false;
     public bool reset = false;
 
@@ -50,6 +53,17 @@ public class TerrainGenerator : MonoBehaviour
             reset = false;
             chunks = new List<List<Chunk>>();
         }
+    }
+
+    string GetChunkLookUpKey(int[] xyz)
+    {
+        return xyz[0] + "_" + xyz[1] + "_" + xyz[2];
+    }
+
+    string GetChunkLookUpKey(Chunk c)
+    {
+        int[] xyz = c.GetXYX();
+        return GetChunkLookUpKey(xyz);
     }
 
     int Generator(int x, int y, int z)
@@ -116,6 +130,7 @@ public class TerrainGenerator : MonoBehaviour
         }
 
         chunks = new List<List<Chunk>>();
+        chunkLookup = new Dictionary<string, Chunk>();
 
         chunks.Add(new List<Chunk>());
 
@@ -140,6 +155,9 @@ public class TerrainGenerator : MonoBehaviour
 
             chunks[genX].Add(chunk);
 
+            chunk.SetXYZ(genX, genY, genZ);
+            chunkLookup.Add(GetChunkLookUpKey(chunk), chunk);
+
             chunk.SetVoxels(GetChunkVoxels(genX, 0, genZ));
             chunk.SetColorPalette(chunkColorPalette);
             chunk.EnableHightColorCylce(true);
@@ -155,7 +173,82 @@ public class TerrainGenerator : MonoBehaviour
                 if(genX < numberOfChunksX)
                 {
                     chunks.Add(new List<Chunk>());
+                } else
+                {
+                    Debug.Log("Updated Surrounding Chunks");
+                    UpdateSurroundingChunks();
                 }
+            }
+        }
+    }
+
+    Chunk[] GetSurroundingChunks(Chunk c)
+    {
+        Chunk[] surroundingChunks = new Chunk[6];
+
+        int[] xyz = c.GetXYX();
+
+        int[] xyzS;
+        string key;
+
+        xyzS = new int[] { xyz[0], xyz[1], xyz[2] + 1};
+        key = GetChunkLookUpKey(xyzS);
+        if (chunkLookup.ContainsKey(key))
+        {
+            Chunk sChunk = chunkLookup[key];
+            surroundingChunks[0] = sChunk;
+        }
+
+        xyzS = new int[] { xyz[0], xyz[1], xyz[2] - 1 };
+        key = GetChunkLookUpKey(xyzS);
+        if (chunkLookup.ContainsKey(key))
+        {
+            Chunk sChunk = chunkLookup[key];
+            surroundingChunks[1] = sChunk;
+        }
+
+        xyzS = new int[] { xyz[0] - 1, xyz[1], xyz[2]};
+        key = GetChunkLookUpKey(xyzS);
+        if (chunkLookup.ContainsKey(key))
+        {
+            Chunk sChunk = chunkLookup[key];
+            surroundingChunks[2] = sChunk;
+        }
+
+        xyzS = new int[] { xyz[0] + 1, xyz[1], xyz[2]};
+        key = GetChunkLookUpKey(xyzS);
+        if (chunkLookup.ContainsKey(key))
+        {
+            Chunk sChunk = chunkLookup[key];
+            surroundingChunks[3] = sChunk;
+        }
+
+        xyzS = new int[] { xyz[0], xyz[1] + 1, xyz[2]};
+        key = GetChunkLookUpKey(xyzS);
+        if (chunkLookup.ContainsKey(key))
+        {
+            Chunk sChunk = chunkLookup[key];
+            surroundingChunks[4] = sChunk;
+        }
+
+        xyzS = new int[] { xyz[0], xyz[1] - 1, xyz[2]};
+        key = GetChunkLookUpKey(xyzS);
+        if (chunkLookup.ContainsKey(key))
+        {
+            Chunk sChunk = chunkLookup[key];
+            surroundingChunks[5] = sChunk;
+        }
+
+        return surroundingChunks;
+    }
+
+    void UpdateSurroundingChunks()
+    {
+        foreach(List<Chunk> chunkList in chunks)
+        {
+            foreach(Chunk chunk in chunkList)
+            {
+                chunk.SetSurroundingChunks(GetSurroundingChunks(chunk));
             }
         }
     }

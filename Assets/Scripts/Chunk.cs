@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-//[ExecuteInEditMode]
 [Serializable]
 public class Chunk : MonoBehaviour
 {
+    public int x, y, z;
+
     public float voxelSize = 1.0f;
     public static int chunkSize = 16;
 
@@ -30,6 +31,9 @@ public class Chunk : MonoBehaviour
     public Color remainingColor = Color.gray;
     public bool updateInEditor = false;
 
+    // front back left right up down
+    private Chunk[] surroundingChunks = new Chunk[6];
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +55,18 @@ public class Chunk : MonoBehaviour
         }   
     }
 
+    public void SetXYZ(int x, int y, int z)
+    {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    public int[] GetXYX()
+    {
+        return new int[] { x, y, z};
+    }
+
     public void EnableHightColorCylce(bool enable) {
         enableHightColorCylce = enable;
     }
@@ -60,7 +76,12 @@ public class Chunk : MonoBehaviour
         colorPalette = palette;
     }
 
-    public void UpdateVoxel(int x, int y, int z, int value)
+    public int GetVoxel(int x, int y, int z)
+    {
+        return voxels[x, y, z];
+    }
+
+    public void SetVoxel(int x, int y, int z, int value)
     {
         voxels[x, y, z] = value;
     }
@@ -86,6 +107,97 @@ public class Chunk : MonoBehaviour
         }
 
         Render();
+    }
+
+    public void SetSurroundingChunks(Chunk[] surroundingChunks)
+    {
+        this.surroundingChunks = surroundingChunks;
+    }
+
+    public int[] WorldSpaceToVoxelXYZ(Vector3 worldSpace, out Chunk chunk)
+    {
+        Vector3 posDelta = -transform.position + worldSpace;
+
+        float xHat = posDelta.x / voxelSize;
+        float yHat = posDelta.y / voxelSize;
+        float zHat = posDelta.z / voxelSize;
+
+        int x = Mathf.RoundToInt(xHat) + chunkSize / 2;
+        int y = Mathf.RoundToInt(yHat) + chunkSize / 2;
+        int z = Mathf.RoundToInt(zHat) + chunkSize / 2;
+
+        chunk = null;
+
+        int[] xyz = { x, y , z};
+
+        bool thisChunk = true;
+
+        if(x < 0)
+        {
+            if(surroundingChunks[2] != null)
+            {
+                xyz = surroundingChunks[2].WorldSpaceToVoxelXYZ(worldSpace, out chunk);
+            }
+
+            thisChunk = false;
+        }
+
+        if (x >= chunkSize)
+        {
+            if (surroundingChunks[3] != null)
+            {
+                xyz = surroundingChunks[3].WorldSpaceToVoxelXYZ(worldSpace, out chunk);
+            }
+
+            thisChunk = false;
+        }
+
+        if (y < 0)
+        {
+            if (surroundingChunks[5] != null)
+            {
+                xyz = surroundingChunks[5].WorldSpaceToVoxelXYZ(worldSpace, out chunk);
+            }
+
+            thisChunk = false;
+        }
+
+        if (y >= chunkSize)
+        {
+            if (surroundingChunks[4] != null)
+            {
+                xyz = surroundingChunks[4].WorldSpaceToVoxelXYZ(worldSpace, out chunk);
+            }
+
+            thisChunk = false;
+        }
+
+        if (z < 0)
+        {
+            if (surroundingChunks[1] != null)
+            {
+                xyz = surroundingChunks[1].WorldSpaceToVoxelXYZ(worldSpace, out chunk);
+            }
+
+            thisChunk = false;
+        }
+
+        if (z >= chunkSize)
+        {
+            if (surroundingChunks[0] != null)
+            {
+                xyz = surroundingChunks[0].WorldSpaceToVoxelXYZ(worldSpace, out chunk);
+            }
+
+            thisChunk = false;
+        }
+
+        if (thisChunk)
+        {
+            chunk = this;
+        }
+
+        return xyz;
     }
 
     void Reset()
@@ -451,5 +563,7 @@ public class Chunk : MonoBehaviour
         mesh.colors = colors.ToArray();
         mesh.Optimize();
         mesh.RecalculateNormals();
+
+        GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 }
