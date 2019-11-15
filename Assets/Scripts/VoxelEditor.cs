@@ -25,12 +25,14 @@ public class VoxelEditor : MonoBehaviour
             switch(mode)
             {
                 case VoxelEditorMode.Add:
+                    mode = VoxelEditorMode.Color;
+                    break;
+                case VoxelEditorMode.Color:
                     mode = VoxelEditorMode.Remove;
                     break;
                 case VoxelEditorMode.Remove:
                     mode = VoxelEditorMode.Add;
                     break;
-
                 default:
                     break;
             }
@@ -66,7 +68,9 @@ public class VoxelEditor : MonoBehaviour
                 case VoxelEditorMode.Remove:
                     RemoveVoxel();
                     break;
-
+                case VoxelEditorMode.Color:
+                    ColorVoxel();
+                    break;
                 default:
                     break;
             }
@@ -187,6 +191,69 @@ public class VoxelEditor : MonoBehaviour
                 if (target != null)
                 {
                     int newValue = 0;
+                    int oldValue = target.GetVoxel(voxelPos[0], voxelPos[1], voxelPos[2]);
+
+                    if (oldValue != newValue)
+                    {
+                        target.SetVoxel(voxelPos[0], voxelPos[1], voxelPos[2], newValue);
+                        target.GenerateChunk();
+                    }
+                }
+            }
+        }
+    }
+
+    void ColorVoxel()
+    {
+        Vector3 fwd = transform.TransformDirection(Vector3.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, fwd, out hit, Mathf.Infinity))
+        {
+
+            Debug.DrawRay(transform.position, hit.point, Color.yellow);
+
+            Chunk chunk = hit.collider.GetComponent<Chunk>();
+
+            if (chunk != null)
+            {
+                Vector3 nudge = new Vector3(0f, 0f, 0f);
+
+                if (this.transform.position.x < hit.point.x)
+                {
+                    nudge.x += chunk.voxelSize * pointDelta;
+                }
+
+                if (this.transform.position.x > hit.point.x)
+                {
+                    nudge.x += -chunk.voxelSize * pointDelta;
+                }
+
+                if (this.transform.position.y < hit.point.y)
+                {
+                    nudge.y += chunk.voxelSize * pointDelta;
+                }
+
+                if (this.transform.position.y > hit.point.y)
+                {
+                    nudge.y += -chunk.voxelSize * pointDelta;
+                }
+
+                if (this.transform.position.z < hit.point.z)
+                {
+                    nudge.z += chunk.voxelSize * pointDelta;
+                }
+
+                if (this.transform.position.z > hit.point.z)
+                {
+                    nudge.z += -chunk.voxelSize * pointDelta;
+                }
+
+                int[] voxelPos = chunk.WorldSpaceToVoxelXYZ(hit.point + nudge, out Chunk target);
+
+                if (target != null)
+                {
+                    int newValue = selectedValue;
                     int oldValue = target.GetVoxel(voxelPos[0], voxelPos[1], voxelPos[2]);
 
                     if (oldValue != newValue)

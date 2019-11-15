@@ -158,6 +158,8 @@ public class TerrainGenerator : MonoBehaviour
             chunk.SetXYZ(genX, genY, genZ);
             chunkLookup.Add(GetChunkLookUpKey(chunk), chunk);
 
+            chunk.SetChunkName(seed + "_" + GetChunkLookUpKey(chunk));
+
             chunk.SetVoxels(GetChunkVoxels(genX, 0, genZ));
             chunk.SetColorPalette(chunkColorPalette);
             chunk.EnableHightColorCylce(true);

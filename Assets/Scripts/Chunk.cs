@@ -3,20 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
+[ExecuteAlways]
 [Serializable]
 public class Chunk : MonoBehaviour
 {
     public int x, y, z;
+    public string chunkName;
 
     public float voxelSize = 1.0f;
     public static int chunkSize = 16;
+
+    public static string chunkSaveExtension = ".cnk";
 
     List<Vector3> vertices = new List<Vector3>();
     List<int> triangles = new List<int>();
     List<Vector2> uv = new List<Vector2>();
     List<Color> colors = new List<Color>();
 
+    [SerializeField]
     List<Color> colorPalette = new List<Color>(); 
 
     MeshFilter mf;
@@ -27,12 +34,13 @@ public class Chunk : MonoBehaviour
     public int heightColorCycle = 3;
     private bool enableHightColorCylce = false;
 
-    public Color topColor = new Color(96 / 256f, 128 / 256f, 56 / 256f);
-    public Color remainingColor = Color.gray;
     public bool updateInEditor = false;
 
     // front back left right up down
     private Chunk[] surroundingChunks = new Chunk[6];
+
+    public bool loadChunk = false;
+    public bool saveChunk = false;
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +53,11 @@ public class Chunk : MonoBehaviour
         mf = GetComponent<MeshFilter>();
     }
 
+    public string GetChunkSaveLocation()
+    {
+        return Application.persistentDataPath + "/ChunkSaves";
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -52,7 +65,20 @@ public class Chunk : MonoBehaviour
         {
             GenerateChunk();
             updateInEditor = false;
-        }   
+        }
+        
+        if(loadChunk)
+        {
+            LoadChunk();
+            GenerateChunk();
+            loadChunk = false;
+        }
+
+        if (saveChunk)
+        {
+            SaveChunk();
+            saveChunk = false;
+        }
     }
 
     public void SetXYZ(int x, int y, int z)
@@ -60,6 +86,11 @@ public class Chunk : MonoBehaviour
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public void SetChunkName(string chunkName)
+    {
+        this.chunkName = chunkName;
     }
 
     public int[] GetXYX()
@@ -106,6 +137,7 @@ public class Chunk : MonoBehaviour
             }
         }
 
+        // TESTING END
         Render();
     }
 
@@ -565,5 +597,121 @@ public class Chunk : MonoBehaviour
         mesh.RecalculateNormals();
 
         GetComponent<MeshCollider>().sharedMesh = mesh;
+    }
+
+    string GetSavePath()
+    {
+        return GetChunkSaveLocation() + "/ " + chunkName + chunkSaveExtension;
+    }
+
+    public void SaveChunk()
+    {
+        string serializedChunk = SerializeChunk();
+        Directory.CreateDirectory(GetChunkSaveLocation());
+        File.WriteAllText(GetSavePath(), serializedChunk, System.Text.Encoding.ASCII);
+    }
+
+    public bool LoadChunk()
+    {
+        if(File.Exists(GetSavePath()))
+        {
+            string serializedChunk = File.ReadAllText(GetSavePath(), System.Text.Encoding.ASCII);
+            SetToSerializedChunk(serializedChunk);
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    public string SerializeChunk()
+    {
+        ChunkTransferObject transferObj = new ChunkTransferObject(this.voxels, this.colorPalette);
+
+        return JsonUtility.ToJson(transferObj);
+    }
+
+    void SetToSerializedChunk(String str)
+    {
+        ChunkTransferObject transferObj = JsonUtility.FromJson<ChunkTransferObject>(str);
+
+        transferObj.GetData(out voxels, out colorPalette);
+    }
+}
+
+[System.Serializable]
+public class ChunkTransferObject
+{
+    public int[] flattenedVoxels = new int[Chunk.chunkSize * Chunk.chunkSize * Chunk.chunkSize];
+    public List<SerializableColor> colorPalette;
+
+    public ChunkTransferObject()
+    {
+
+    }
+
+    public ChunkTransferObject(int[,,] voxels, List<Color> palette)
+    {
+        //this.voxels = voxels;
+
+        for(int xVoxel = 0; xVoxel < Chunk.chunkSize; xVoxel++)
+        {
+            for (int yVoxel = 0; yVoxel < Chunk.chunkSize; yVoxel++)
+            {
+                for (int zVoxel = 0; zVoxel < Chunk.chunkSize; zVoxel++)
+                {
+                    flattenedVoxels[(xVoxel * Chunk.chunkSize * Chunk.chunkSize) + (yVoxel * Chunk.chunkSize) + zVoxel] = voxels[xVoxel, yVoxel, zVoxel];
+                }
+            }
+        }
+
+        colorPalette = new List<SerializableColor>();
+
+        foreach (Color c in palette)
+        {
+            colorPalette.Add(new SerializableColor(c));
+        }
+    }
+
+    public void GetData(out int[,,] voxels, out List<Color> palette)
+    {
+        voxels = new int[Chunk.chunkSize, Chunk.chunkSize, Chunk.chunkSize];
+
+        for(int i = 0; i < flattenedVoxels.Length; i++)
+        {
+            int x = Mathf.FloorToInt(i / (Chunk.chunkSize * Chunk.chunkSize));
+            int y = Mathf.FloorToInt((i - (x * Chunk.chunkSize * Chunk.chunkSize)) / Chunk.chunkSize);
+            int z = i - (y * Chunk.chunkSize) - (x * Chunk.chunkSize * Chunk.chunkSize);
+
+            voxels[x, y, z] = flattenedVoxels[i];
+        }
+
+        palette = new List<Color>();
+
+        foreach (SerializableColor c in colorPalette)
+        {
+            palette.Add(c.GetColor());
+        }
+    }
+}
+
+[System.Serializable]
+public class SerializableColor
+{
+    public float r;
+    public float g;
+    public float b;
+    public float a;
+
+    public SerializableColor(Color color)
+    {
+        r = color.r;
+        g = color.g;
+        b = color.b;
+        a = color.a;
+    }
+    public Color GetColor()
+    {
+        return new Color(r, g, b, a);
     }
 }
