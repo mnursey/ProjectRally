@@ -148,8 +148,11 @@ public class GameRunner : MonoBehaviour {
 		ShipController sc = sObj.GetComponent<ShipController>();
 
 		if(serverMode) {
-			BoxCollider bc = sObj.GetComponent<BoxCollider>();
-			bc.enabled = false;
+
+            foreach (MeshCollider c in sObj.GetComponentsInChildren<MeshCollider>())
+            {
+                c.enabled = false;
+            }
 		}
 
 		shipControllers.Add(sc);

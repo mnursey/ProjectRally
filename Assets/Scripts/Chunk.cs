@@ -6,6 +6,8 @@ using UnityEditor;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
+public delegate void ChunkOnClick();
+
 [ExecuteAlways]
 [Serializable]
 public class Chunk : MonoBehaviour
@@ -46,6 +48,8 @@ public class Chunk : MonoBehaviour
     public bool saveChunk = false;
     public bool loadOnStart = false;
     public bool renderOnStart = false;
+
+    public ChunkOnClick onClickCallback;
 
     // Start is called before the first frame update
     void Start()
@@ -92,6 +96,14 @@ public class Chunk : MonoBehaviour
         {
             SaveChunk();
             saveChunk = false;
+        }
+    }
+
+    void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            onClickCallback?.Invoke();
         }
     }
 

@@ -58,6 +58,11 @@ public class ShipController : MonoBehaviour {
 
 	void Awake () {
 		playerController = FindObjectOfType<PlayerController>();
+
+        foreach(Chunk c in GetComponentsInChildren<Chunk>())
+        {
+            c.onClickCallback = Clicked;
+        }
 	}
 
 	public void SetShipMove(ShipMove move) {
@@ -275,15 +280,25 @@ public class ShipController : MonoBehaviour {
 	}
 
 	void OnMouseOver() {
-		if(Input.GetMouseButtonDown(0) && playerController != null) {
-			playerController.SelectObject(this.gameObject);
-			selected = true;
+		if(Input.GetMouseButtonDown(0)) {
+            Clicked();
 		}
 
 		hover = true;
 	}
-	
-	public void Select() {
+
+    public void Clicked()
+    {
+        if(playerController != null)
+        {
+            playerController.SelectObject(this.gameObject);
+            selected = true;
+        }
+
+        hover = true;
+    }
+
+    public void Select() {
 		selectionCircleController.EnableCircle();
 		pathSelectionController.ShowPath();
 
