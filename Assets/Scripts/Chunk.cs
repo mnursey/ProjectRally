@@ -41,11 +41,15 @@ public class Chunk : MonoBehaviour
 
     public bool loadChunk = false;
     public bool saveChunk = false;
+    public bool loadOnStart = false;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        if(loadOnStart)
+        {
+            loadChunk = true;
+        }
     }
 
     void Awake()

@@ -162,13 +162,11 @@ public class GameRunner : MonoBehaviour {
 
         if(playerID > -1 && sc.shipOwner != playerID)
         {
-            sc.GetComponent<Renderer>().material.color = Color.red;
+            //sc.GetComponent<Renderer>().material.color = Color.red;
         }
 
         if(serverMode)
         {
-            sc.GetComponent<Renderer>().enabled = false;
-
             foreach(Renderer r in sc.GetComponentsInChildren<Renderer>())
             {
                 r.enabled = false;
