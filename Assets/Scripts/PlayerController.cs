@@ -66,9 +66,12 @@ public class PlayerController : MonoBehaviour {
 
     public void ConnectToGame()
     {
-        uiController.EnableMainMenuUI(false, EnableLoadUI);
-        clientController.Connect();
-        loadUINeeded = true;
+        if(clientController.state == ClientState.IDLE)
+        {
+            uiController.EnableMainMenuUI(false, EnableLoadUI);
+            clientController.Connect();
+            loadUINeeded = true;
+        }
     }
 
     public void OnFailedToConnect()
