@@ -18,9 +18,12 @@ public class Chunk : MonoBehaviour
 
     public static string chunkSaveExtension = ".cnk";
 
+    [SerializeField]
     List<Vector3> vertices = new List<Vector3>();
+    [SerializeField]
     List<int> triangles = new List<int>();
     List<Vector2> uv = new List<Vector2>();
+    [SerializeField]
     List<Color> colors = new List<Color>();
 
     [SerializeField]
@@ -42,6 +45,7 @@ public class Chunk : MonoBehaviour
     public bool loadChunk = false;
     public bool saveChunk = false;
     public bool loadOnStart = false;
+    public bool renderOnStart = false;
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +53,12 @@ public class Chunk : MonoBehaviour
         if(loadOnStart)
         {
             loadChunk = true;
+        }
+
+        if(renderOnStart)
+        {
+            Render();
+            renderOnStart = false;
         }
     }
 

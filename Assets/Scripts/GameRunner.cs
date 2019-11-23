@@ -36,7 +36,7 @@ public class GameRunner : MonoBehaviour {
 	bool serverMode = false;
 
 	float rocketToRocketCollisionDistance = 0.5f;
-	float rocketToShipCollisionDistance = 1.0f;
+	float rocketToShipCollisionDistance = 1.5f;
 	float shipToShipCollisionDistance = 1.5f;
 
 	public GameRunner() {

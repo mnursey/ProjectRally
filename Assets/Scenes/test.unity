@@ -1288,6 +1288,9 @@ MonoBehaviour:
   z: 0
   chunkName: SpaceShip0
   voxelSize: 0.5
+  vertices: []
+  triangles: 
+  colors: []
   colorPalette:
   - {r: 0.30980393, g: 0.3137255, b: 0.31764707, a: 0}
   - {r: 0.30980393, g: 0.3137255, b: 0.31764707, a: 0}
@@ -1331,6 +1334,7 @@ MonoBehaviour:
   loadChunk: 0
   saveChunk: 0
   loadOnStart: 0
+  renderOnStart: 0
 --- !u!23 &879510436
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1798,6 +1802,9 @@ MonoBehaviour:
   z: 0
   chunkName: SpaceShip0
   voxelSize: 0.5
+  vertices: []
+  triangles: 
+  colors: []
   colorPalette:
   - {r: 0.30980393, g: 0.3137255, b: 0.31764707, a: 0}
   - {r: 0.30980393, g: 0.3137255, b: 0.31764707, a: 0}
@@ -1841,6 +1848,7 @@ MonoBehaviour:
   loadChunk: 0
   saveChunk: 0
   loadOnStart: 0
+  renderOnStart: 0
 --- !u!23 &1054687481
 MeshRenderer:
   m_ObjectHideFlags: 0
