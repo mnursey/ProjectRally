@@ -158,17 +158,45 @@ public class UIController : MonoBehaviour {
 
     public void EnableInfoUI(bool enable)
     {
-        infoUI.SetActive(enable);
+        Debug.Log("Info " + enable.ToString());
+
+        if (enable)
+        {
+            infoUI.SetActive(enable);
+            infoUI.GetComponent<Animator>().SetTrigger("Enter");
+        }
+        else
+        {
+            infoUI.GetComponent<Animator>().SetTrigger("Exit");
+        }
     }
 
     public void EnableCommandUI(bool enable)
     {
-        commandUI.SetActive(enable);
+        Debug.Log("Cmd " + enable.ToString());
+
+        if (enable)
+        {
+            commandUI.SetActive(enable);
+            commandUI.GetComponent<Animator>().SetTrigger("Enter");
+        }
+        else
+        {
+            commandUI.GetComponent<Animator>().SetTrigger("Exit");
+        }
     }
 
     public void EnableEndUI(bool enable)
     {
-        endUI.SetActive(enable);
+        if (enable)
+        {
+            endUI.SetActive(enable);
+            endUI.GetComponent<Animator>().SetTrigger("Enter");
+        }
+        else
+        {
+            endUI.GetComponent<Animator>().SetTrigger("Exit");
+        }
     }
 
     public void EnableMainMenuUI(bool enable, AnimCallback cb)
