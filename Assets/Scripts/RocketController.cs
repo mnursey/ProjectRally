@@ -48,7 +48,7 @@ public class RocketController : MonoBehaviour {
 				transform.position = BezierCurve.Curve(targetPath, actionPercent);
 				Vector3 deltaPosition = BezierCurve.Curve(targetPath, Mathf.Min(actionPercent + BezierCurve.Delta(), 1.0f));
 
-				transform.LookAt(deltaPosition, Vector3.right);
+				transform.LookAt(deltaPosition);
 
 				if (actionPercent == 1.0f) {					 
 					return true;

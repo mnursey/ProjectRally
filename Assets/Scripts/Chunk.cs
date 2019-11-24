@@ -33,6 +33,7 @@ public class Chunk : MonoBehaviour
 
     MeshFilter mf;
 
+    [SerializeField]
     int[,,] voxels = new int[chunkSize, chunkSize, chunkSize];
 
     public float colorHeightDelta = 0.02f;
@@ -47,7 +48,7 @@ public class Chunk : MonoBehaviour
     public bool loadChunk = false;
     public bool saveChunk = false;
     public bool loadOnStart = false;
-    public bool renderOnStart = false;
+    public bool generateChunkOnStart = false;
 
     public ChunkOnClick onClickCallback;
 
@@ -59,10 +60,9 @@ public class Chunk : MonoBehaviour
             loadChunk = true;
         }
 
-        if(renderOnStart)
+        if(generateChunkOnStart)
         {
-            Render();
-            renderOnStart = false;
+            GenerateChunk();
         }
     }
 

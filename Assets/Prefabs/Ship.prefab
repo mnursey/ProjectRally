@@ -576,10 +576,10 @@ MonoBehaviour:
   rocketAimPoint: {fileID: 492232}
   rocket: {fileID: 0}
   playerController: {fileID: 0}
-  maxHealth: 1
+  maxHealth: 3
   maxEnergy: 5
   shipName: 
-  health: 1
+  health: 3
   rocketCount: 3
   energy: 3
   explosionPrefab: {fileID: 125884, guid: cc5f58722109c3a47a02a30974794582, type: 3}
@@ -5175,8 +5175,8 @@ MonoBehaviour:
   updateInEditor: 0
   loadChunk: 0
   saveChunk: 0
-  loadOnStart: 0
-  renderOnStart: 1
+  loadOnStart: 1
+  generateChunkOnStart: 0
 --- !u!64 &5352228795773000389
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5185,9 +5185,9 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5013458243948338941}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 0}

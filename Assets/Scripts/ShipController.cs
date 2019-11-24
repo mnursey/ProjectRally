@@ -144,7 +144,10 @@ public class ShipController : MonoBehaviour {
             }
 
             // Hide ship
-            GetComponent<BoxCollider>().enabled = false;
+            foreach(MeshCollider c in GetComponentsInChildren<MeshCollider>())
+            {
+                c.enabled = false;
+            }
 
             // if selected ship... deselect
             if (playerController.GetSelectedObject() == this.gameObject)
