@@ -164,10 +164,12 @@ public class UIController : MonoBehaviour {
         {
             infoUI.SetActive(enable);
             infoUI.GetComponent<Animator>().SetTrigger("Enter");
+            infoUI.GetComponent<Animator>().ResetTrigger("Exit");
         }
         else
         {
             infoUI.GetComponent<Animator>().SetTrigger("Exit");
+            infoUI.GetComponent<Animator>().ResetTrigger("Enter");
         }
     }
 
@@ -179,10 +181,12 @@ public class UIController : MonoBehaviour {
         {
             commandUI.SetActive(enable);
             commandUI.GetComponent<Animator>().SetTrigger("Enter");
+            commandUI.GetComponent<Animator>().ResetTrigger("Exit");
         }
         else
         {
             commandUI.GetComponent<Animator>().SetTrigger("Exit");
+            commandUI.GetComponent<Animator>().ResetTrigger("Enter");
         }
     }
 
@@ -192,10 +196,12 @@ public class UIController : MonoBehaviour {
         {
             endUI.SetActive(enable);
             endUI.GetComponent<Animator>().SetTrigger("Enter");
+            endUI.GetComponent<Animator>().ResetTrigger("Exit");
         }
         else
         {
             endUI.GetComponent<Animator>().SetTrigger("Exit");
+            endUI.GetComponent<Animator>().ResetTrigger("Enter");
         }
     }
 
