@@ -54,7 +54,7 @@ public class RocketController : MonoBehaviour {
 
                 float heightVisual = targetVisual != null ? targetVisual.position.y : rocketVisualHolder.transform.position.y;
                 rocketVisualHolder.transform.position = new Vector3(rocketVisualHolder.transform.position.x, Mathf.Lerp(originalHeight, heightVisual, actionPercent), rocketVisualHolder.transform.position.z);
-                deltaPosition = new Vector3(deltaPosition.x, Mathf.Lerp(originalHeight, targetVisual.position.y, actionPercent + BezierCurve.Delta()), deltaPosition.z);
+                deltaPosition = new Vector3(deltaPosition.x, Mathf.Lerp(originalHeight, heightVisual, actionPercent + BezierCurve.Delta()), deltaPosition.z);
                 rocketVisualHolder.transform.LookAt(deltaPosition);
 
                 if (actionPercent == 1.0f) {					 
