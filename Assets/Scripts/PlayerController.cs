@@ -28,12 +28,18 @@ public class PlayerController : MonoBehaviour {
     private bool enableTurnTimer = false;
     private bool loadUINeeded = false;
 
-	void Start () {
+    public float defaultShipVisualHeight = 0.0f;
+    public float visualShipViaulHeightOffset = 1.5f;
+
+    void Start () {
         clientController = GetComponent<ClientController>();
 	}
 
 	void Update () {
-		if(enableTurnTimer)
+
+        UpdateShipVisualHeight();
+
+        if (enableTurnTimer)
         {
             currentTurnTime += Time.deltaTime;
             uiController.UpdateTurnTimerText(maxTurnTime -  currentTurnTime);
@@ -43,7 +49,30 @@ public class PlayerController : MonoBehaviour {
                 EndTurn();
             }
         }
-	}
+    }
+
+    private void UpdateShipVisualHeight()
+    {
+        float calcHeightDiff(float dist)
+        {
+            return (-1f / (1f + Mathf.Pow((float)Math.E, -1.5f * (0.4f * dist - 3f)))) + 1f;
+        }
+
+        foreach (ShipController m in shipControllers)
+        {
+            float height = defaultShipVisualHeight;
+            foreach (ShipController n in shipControllers)
+            {
+                if (m != n)
+                {
+                    float sign = m.shipID > n.shipID ? 1 : -1;
+                    height += sign * visualShipViaulHeightOffset * calcHeightDiff(Vector3.Distance(m.transform.position, n.transform.position));
+                }
+            }
+
+            m.UpdateVisualShipLevel(height);
+        }
+    }
 
     public void QuitGame()
     {

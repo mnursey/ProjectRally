@@ -8,8 +8,9 @@ public class PathSelectionController : MonoBehaviour {
 	LineRenderer lr;
 	public int segments;
 	public float width;
+    List<Vector3> savedDisplayPaths = new List<Vector3>();
 
-	void Start () {
+    void Start () {
 
 	}
 
@@ -33,11 +34,23 @@ public class PathSelectionController : MonoBehaviour {
 			displayPath.Add(BezierCurve.Curve(path, movePercent));
 		}
 
+        savedDisplayPaths = displayPath;
+
         lr.positionCount = displayPath.Count;
 		lr.SetPositions(displayPath.ToArray());
 	}
 
-	public void ShowPath() {
+    public void UpdateVisualHeight(float height)
+    {
+        for(int i = 0; i < savedDisplayPaths.Count; i++)
+        {
+            savedDisplayPaths[i] = new Vector3(savedDisplayPaths[i].x, height, savedDisplayPaths[i].z);
+        }
+
+        lr.SetPositions(savedDisplayPaths.ToArray());
+    }
+
+    public void ShowPath() {
 		lr.enabled = true;
 	}
 

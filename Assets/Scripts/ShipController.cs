@@ -50,6 +50,8 @@ public class ShipController : MonoBehaviour {
 	public ShieldVisualController shieldVisualController;
 	public VisualTriangleController energyVisualController;
 
+    public GameObject visualHolder;
+
 	void Start () {
 		state = ShipStateEnum.IDLE;
 		movePercent = 0.0f;
@@ -206,7 +208,7 @@ public class ShipController : MonoBehaviour {
 
 		rocket = Instantiate(RocketPrefab, shipGun.position, transform.rotation) as GameObject;
 		RocketController r = rocket.GetComponent<RocketController>();
-		r.SetCourse(rocketPath, sc.transform, this);
+		r.SetCourse(rocketPath, sc.transform, sc.visualHolder.transform, this);
 
         if (playerController != null && playerController.GetSelectedObject() == this.gameObject)
         {
@@ -351,11 +353,11 @@ public class ShipController : MonoBehaviour {
 		List<Vector3> path = new List<Vector3>();
 
 		ShipMove sm = GetShipMove();
-		path.Add(transform.position);
+		path.Add(transform.position + visualHolder.transform.localPosition);
 
 		foreach(Vector2 w in sm.waypoints) {
 			Vector3 point = new Vector3(w.x, 0, w.y);
-			Vector3 adjustWaypoint = Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up) * point + transform.position;
+			Vector3 adjustWaypoint = Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up) * point + transform.position + visualHolder.transform.localPosition;
 			path.Add(adjustWaypoint);
 		}
 
@@ -418,4 +420,13 @@ public class ShipController : MonoBehaviour {
 		transform.position = s.position;
 		transform.rotation = Quaternion.Euler(s.rotation);
 	}
+
+    public void UpdateVisualShipLevel(float height)
+    {
+        Vector3 pos = visualHolder.transform.localPosition;
+        pos.Set(pos.x, height, pos.z);
+        visualHolder.transform.localPosition = pos;
+
+        pathSelectionController.UpdateVisualHeight(visualHolder.transform.position.y);
+    }
 }

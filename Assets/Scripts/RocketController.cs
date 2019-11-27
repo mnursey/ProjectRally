@@ -7,6 +7,10 @@ public class RocketController : MonoBehaviour {
 
 	private List<Vector3> fireVectors;
 	private Transform target;
+    private Transform targetVisual;
+    private float originalHeight = 0.0f;
+
+    public GameObject rocketVisualHolder;
 
 	private float actionPercent = 0.0f;
 	public float actionSpeed;
@@ -48,9 +52,12 @@ public class RocketController : MonoBehaviour {
 				transform.position = BezierCurve.Curve(targetPath, actionPercent);
 				Vector3 deltaPosition = BezierCurve.Curve(targetPath, Mathf.Min(actionPercent + BezierCurve.Delta(), 1.0f));
 
-				transform.LookAt(deltaPosition);
+                float heightVisual = targetVisual != null ? targetVisual.position.y : rocketVisualHolder.transform.position.y;
+                rocketVisualHolder.transform.position = new Vector3(rocketVisualHolder.transform.position.x, Mathf.Lerp(originalHeight, heightVisual, actionPercent), rocketVisualHolder.transform.position.z);
+                deltaPosition = new Vector3(deltaPosition.x, Mathf.Lerp(originalHeight, targetVisual.position.y, actionPercent + BezierCurve.Delta()), deltaPosition.z);
+                rocketVisualHolder.transform.LookAt(deltaPosition);
 
-				if (actionPercent == 1.0f) {					 
+                if (actionPercent == 1.0f) {					 
 					return true;
 				}
 			}
@@ -59,10 +66,12 @@ public class RocketController : MonoBehaviour {
 		return false;
 	}
 
-	public void SetCourse(List<Vector3> fireVectors, Transform target, ShipController orginShip) {
+	public void SetCourse(List<Vector3> fireVectors, Transform target, Transform targetVisual, ShipController orginShip) {
 		this.fireVectors = fireVectors;
 		this.target = target;
 		this.orginShip = orginShip;
+        this.originalHeight = orginShip.visualHolder.transform.position.y;
+        this.targetVisual = targetVisual;
 	}
 
 	public void Explode() {
