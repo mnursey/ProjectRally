@@ -64,6 +64,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48b1dc4e443b5844aa79ba4b2e9eecfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  standardVoxelSpaceShipModels:
+  - {fileID: 4900000, guid: f5df711556656a54384d3569fcf9f321, type: 3}
+  - {fileID: 4900000, guid: dfc9fd1485543d2498ece4d973f711ee, type: 3}
+  - {fileID: 4900000, guid: 16719e39613afe34792355583ac04b20, type: 3}
+  - {fileID: 4900000, guid: 199d54973cf83094db41d2d5adf870b6, type: 3}
+  - {fileID: 4900000, guid: 451d3569e4a7a78409bc32241a9b23cd, type: 3}
   shipCommands: []
   shipPrefab: {fileID: 147110, guid: 6ff137f607ccf4d4a8939ea96f909db2, type: 3}
   squareBoundXPos: 24

@@ -1442,6 +1442,7 @@ MonoBehaviour:
   z: 0
   chunkName: SpaceShip0
   voxelSize: 0.15
+  standardVoxelModel: {fileID: 4900000, guid: f5df711556656a54384d3569fcf9f321, type: 3}
   vertices:
   - {x: -1.2750001, y: -0.22500001, z: -0.22500001}
   - {x: -1.125, y: -0.22500001, z: -0.22500001}

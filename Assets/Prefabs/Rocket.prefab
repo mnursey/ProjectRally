@@ -145,6 +145,7 @@ MonoBehaviour:
   z: 0
   chunkName: Rocket0
   voxelSize: 0.0575
+  standardVoxelModel: {fileID: 4900000, guid: f873b2b4669beec4eaa2f693487fc604, type: 3}
   vertices:
   - {x: -0.20125, y: -0.02875, z: 0.20125}
   - {x: -0.14375, y: -0.02875, z: 0.20125}

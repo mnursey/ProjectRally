@@ -10,6 +10,7 @@ public class GameRunner : MonoBehaviour {
 	List<GameObject> gamePieces;
 	List<ShipController> shipControllers;
 	List<RocketController> rocketControllers;
+    public List<TextAsset> standardVoxelSpaceShipModels = new List<TextAsset>();
 	[SerializeField]
 	List<ShipCommand> shipCommands;
 
@@ -146,6 +147,13 @@ public class GameRunner : MonoBehaviour {
 		GameObject sObj = (GameObject)Instantiate(shipPrefab, spawnPosition, new Quaternion());
 
 		ShipController sc = sObj.GetComponent<ShipController>();
+        Chunk spaceShipVisualChunk = sc.visualHolder.GetComponentInChildren<Chunk>();
+
+        // TODO
+        // Update to set function
+        spaceShipVisualChunk.standardVoxelModel = standardVoxelSpaceShipModels[ownerID % standardVoxelSpaceShipModels.Count];
+        spaceShipVisualChunk.LoadChunk();
+        spaceShipVisualChunk.GenerateChunk();
 
 		if(serverMode) {
 

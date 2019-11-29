@@ -18,7 +18,9 @@ public class Chunk : MonoBehaviour
     public float voxelSize = 1.0f;
     public static int chunkSize = 16;
 
-    public static string chunkSaveExtension = ".cnk";
+    public static string chunkSaveExtension = ".txt";
+
+    public TextAsset standardVoxelModel;
 
     [SerializeField]
     List<Vector3> vertices = new List<Vector3>();
@@ -639,7 +641,16 @@ public class Chunk : MonoBehaviour
 
     public bool LoadChunk()
     {
-        if(File.Exists(GetSavePath()))
+        if(standardVoxelModel != null)
+        {
+            SetToSerializedChunk(standardVoxelModel.text);
+            return true;
+        } else
+        {
+            return false;
+        }
+
+        /*if(File.Exists(GetSavePath()))
         {
             string serializedChunk = File.ReadAllText(GetSavePath(), System.Text.Encoding.ASCII);
             SetToSerializedChunk(serializedChunk);
@@ -647,7 +658,7 @@ public class Chunk : MonoBehaviour
         } else
         {
             return false;
-        }
+        }*/
     }
 
     public string SerializeChunk()

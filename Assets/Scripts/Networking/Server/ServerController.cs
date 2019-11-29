@@ -402,7 +402,7 @@ public class ServerConnectionHandler {
         int removeIndex = -1;
         for(int i = 0; i < connections.Count; i++)
         {
-            if(connections[i].serverPlayerID == co.serverPlayerID)
+            if(connections[i] != null && connections[i].serverPlayerID == co.serverPlayerID)
             {
                 removeIndex = i;
                 break;
