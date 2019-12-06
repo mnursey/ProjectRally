@@ -40,6 +40,9 @@ public class GameRunner : MonoBehaviour {
 	float rocketToShipCollisionDistance = 1.5f;
 	float shipToShipCollisionDistance = 1.5f;
 
+    int spawnCount = 0;
+    public List<Transform> defaultSpawns = new List<Transform>();
+
 	public GameRunner() {
 		Reset(false);
 	}
@@ -58,6 +61,7 @@ public class GameRunner : MonoBehaviour {
         gameOver = false;
         winner = -1;
         this.playerID = playerID;
+        spawnCount = 0;
     }
 
     public void Reset(bool serverMode) {
@@ -74,6 +78,7 @@ public class GameRunner : MonoBehaviour {
         playerID = -1;
         gameOver = false;
         winner = -1;
+        spawnCount = 0;
     }
 
     private void RemoveGameObjects()
@@ -103,35 +108,23 @@ public class GameRunner : MonoBehaviour {
         }
     }
 
-	private Vector3 GetOpenSpawn() {
+	private Transform GetOpenSpawn() {
 
-        // TODO
-		// FIX THIS!
-		Vector3 pos = new Vector3(-15, 3, 0);
-		bool solved = false;
+        Transform t = defaultSpawns[spawnCount % defaultSpawns.Count];
 
-		while(!solved) {
-			solved = true;
-			for(int i = 0; i < shipControllers.Count; ++i) {
-				if (Vector3.Distance(shipControllers[i].transform.position, pos) < 25.0f) {
-					pos.x = pos.x + 5.0f;
-					solved = false;
-					break;
-				}
-			}
-		}
+        spawnCount++;
 
-		return pos;
+        return t;
 	}
 
 	public void AddPlayer (int playerID) {
 		// Create player. Create player spawn. Create 3 ships for player at players spawn with owner set to player
-		Vector3 spawn = GetOpenSpawn();
+		Transform spawn = GetOpenSpawn();
 
 		for(int i = 0; i < 3; ++i) {
-			Vector3 shipSpawnPos = new Vector3(spawn.x, spawn.y, spawn.z + i * 3.0f);
+			Vector3 shipSpawnPos = new Vector3(spawn.position.x, spawn.position.y, spawn.position.z + i * 3.0f);
 			// Create ship at spawn
-			AddShip(playerID, shipSpawnPos);
+			AddShip(playerID, shipSpawnPos, spawn.rotation);
 		}
 	}
 
@@ -139,12 +132,12 @@ public class GameRunner : MonoBehaviour {
 		// TODO
 	}
 
-	private ShipController AddShip(int ownerID, Vector3 spawnPosition) {
-		return AddShip(ownerID, spawnPosition, shipIDTracker++);
+	private ShipController AddShip(int ownerID, Vector3 spawnPosition, Quaternion qRot) {
+		return AddShip(ownerID, spawnPosition, qRot, shipIDTracker++);
 	}
 
-	private ShipController AddShip(int ownerID, Vector3 spawnPosition, int shipID) {
-		GameObject sObj = (GameObject)Instantiate(shipPrefab, spawnPosition, new Quaternion());
+	private ShipController AddShip(int ownerID, Vector3 spawnPosition, Quaternion qRot, int shipID) {
+		GameObject sObj = (GameObject)Instantiate(shipPrefab, spawnPosition, qRot);
 
 		ShipController sc = sObj.GetComponent<ShipController>();
         Chunk spaceShipVisualChunk = sc.visualHolder.GetComponentInChildren<Chunk>();
@@ -201,9 +194,10 @@ public class GameRunner : MonoBehaviour {
 			ShipController sc = GetShipController(s.shipID);
 
 			if(sc == null) {
-				// CREATE SHIP
-
-				sc = AddShip(s.owner, s.position, s.shipID);
+                // CREATE SHIP
+                Quaternion qRot = new Quaternion();
+                qRot.eulerAngles.Set(s.rotation.x, s.rotation.y, s.rotation.y);
+                sc = AddShip(s.owner, s.position, qRot, s.shipID);
 			}
 
 			sc.SetShipState(s);
