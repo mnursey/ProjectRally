@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 73591188}
   - component: {fileID: 73591187}
   - component: {fileID: 73591186}
+  - component: {fileID: 73591189}
   m_Layer: 5
   m_Name: RocketActionUI
   m_TagString: Untagged
@@ -328,6 +329,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 73591184}
   m_CullTransparentMesh: 0
+--- !u!114 &73591189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73591184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d5476fe0867e64d8637cfa51c17fbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &114376908
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,6 +1173,7 @@ GameObject:
   - component: {fileID: 784846779}
   - component: {fileID: 784846782}
   - component: {fileID: 784846780}
+  - component: {fileID: 784846781}
   m_Layer: 5
   m_Name: MoveRightButton
   m_TagString: Untagged
@@ -1241,6 +1255,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &784846781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784846778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d5476fe0867e64d8637cfa51c17fbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &784846782
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5872,6 +5898,7 @@ GameObject:
   - component: {fileID: 1173230084}
   - component: {fileID: 1173230083}
   - component: {fileID: 1173230082}
+  - component: {fileID: 1173230085}
   m_Layer: 5
   m_Name: ShieldActionUI
   m_TagString: Untagged
@@ -5989,6 +6016,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1173230080}
   m_CullTransparentMesh: 0
+--- !u!114 &1173230085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173230080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d5476fe0867e64d8637cfa51c17fbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1230942204
 GameObject:
   m_ObjectHideFlags: 0
@@ -7732,6 +7771,7 @@ MonoBehaviour:
   loadUI: {fileID: 1259224385}
   selectedColor: {r: 0.8938634, g: 0.9044118, b: 0.13965185, a: 1}
   playerController: {fileID: 1547930812}
+  clickedUIThisFrame: 0
 --- !u!1 &1816815711
 GameObject:
   m_ObjectHideFlags: 0
@@ -8727,6 +8767,7 @@ GameObject:
   - component: {fileID: 2027551825}
   - component: {fileID: 2027551824}
   - component: {fileID: 2027551823}
+  - component: {fileID: 2027551826}
   m_Layer: 5
   m_Name: EnergyActionUI
   m_TagString: Untagged
@@ -8844,6 +8885,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2027551821}
   m_CullTransparentMesh: 0
+--- !u!114 &2027551826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027551821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d5476fe0867e64d8637cfa51c17fbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2081802949
 GameObject:
   m_ObjectHideFlags: 0
@@ -8855,6 +8908,7 @@ GameObject:
   - component: {fileID: 2081802950}
   - component: {fileID: 2081802953}
   - component: {fileID: 2081802951}
+  - component: {fileID: 2081802952}
   m_Layer: 5
   m_Name: MoveLeftButton
   m_TagString: Untagged
@@ -8936,6 +8990,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2081802952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081802949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d5476fe0867e64d8637cfa51c17fbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &2081802953
 CanvasRenderer:
   m_ObjectHideFlags: 0

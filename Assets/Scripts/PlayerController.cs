@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour {
     public float defaultShipVisualHeight = 0.0f;
     public float visualShipViaulHeightOffset = 1.5f;
 
+
     void Start () {
         clientController = GetComponent<ClientController>();
 	}
@@ -211,24 +212,38 @@ public class PlayerController : MonoBehaviour {
 		}
     }
 
-	public void SelectObject(GameObject obj) {
-		DeselectObject();
+	public bool SelectObject(GameObject obj) {
+        Debug.Log(uiController.clickedUIThisFrame);
+        if (!uiController.clickedUIThisFrame)
+        {
 
-		selectedObject = obj;
+            DeselectObject();
 
-		if(selectedObject != null) {
-			ShipController shipController = selectedObject.GetComponent<ShipController>();
+            selectedObject = obj;
 
-			if (shipController != null ) {
-                UpdateInfoUI();
-                shipController.Select();
-                uiController.EnableInfoUI(true);
-				if(shipController.shipOwner == playerID) {
-                    uiController.EnableCommandUI(true);
-					UpdateCommandUI();
-				}
-			}
-		}
+            if (selectedObject != null)
+            {
+                ShipController shipController = selectedObject.GetComponent<ShipController>();
+
+                if (shipController != null)
+                {
+                    UpdateInfoUI();
+                    shipController.Select();
+                    uiController.EnableInfoUI(true);
+                    if (shipController.shipOwner == playerID)
+                    {
+                        uiController.EnableCommandUI(true);
+                        UpdateCommandUI();
+                    }
+                }
+            }
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
 	}
 
 	public void HoverObject(GameObject obj) {
@@ -257,7 +272,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void UpdateCommandUI () {
 		if(selectedObject != null) {
-			ShipController shipController = selectedObject.GetComponent<ShipController>();
+            ShipController shipController = selectedObject.GetComponent<ShipController>();
 
 			if (shipController != null && shipController.shipOwner == playerID) {
 				ShipCommand shipCommand = GetShipCommand(shipController);
@@ -287,7 +302,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void SetSelectedShipMove (int moveID) {
 		if(selectedObject != null && canUpdateCmds) {
-			ShipController shipController = selectedObject.GetComponent<ShipController>();
+            ShipController shipController = selectedObject.GetComponent<ShipController>();
 
 			if (shipController != null && shipController.shipOwner == playerID) {
 				ShipCommand shipCommand = GetShipCommand(shipController);
@@ -306,7 +321,7 @@ public class PlayerController : MonoBehaviour {
 		
 	public void IncreaseSelectedShipAction () {
 		if(selectedObject != null) {
-			ShipController shipController = selectedObject.GetComponent<ShipController>();
+            ShipController shipController = selectedObject.GetComponent<ShipController>();
 
 			if (shipController != null && shipController.shipOwner == playerID) {
 				ShipCommand shipCommand = GetShipCommand(shipController);

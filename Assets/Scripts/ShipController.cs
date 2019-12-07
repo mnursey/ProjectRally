@@ -33,7 +33,6 @@ public class ShipController : MonoBehaviour {
 	public int rocketCount = 3;
 	public int energy = 5;
 	bool selected = false;
-	bool hover = false;
 
 	private bool shieldActive = false;
     private bool simMode = false;
@@ -52,6 +51,8 @@ public class ShipController : MonoBehaviour {
 
     public GameObject visualHolder;
 
+    bool clicked = false;
+
 	void Start () {
 		state = ShipStateEnum.IDLE;
 		movePercent = 0.0f;
@@ -63,11 +64,27 @@ public class ShipController : MonoBehaviour {
 
         foreach(Chunk c in GetComponentsInChildren<Chunk>())
         {
-            c.onClickCallback = Clicked;
+            c.onClickCallback = SetClicked;
         }
 	}
 
-	public void SetShipMove(ShipMove move) {
+    void Update()
+    {
+        CheckDeselect();
+
+        if(clicked)
+        {
+            Clicked();
+            clicked = false;
+        }
+    }
+
+    public void SetClicked()
+    {
+        clicked = true;
+    }
+
+    public void SetShipMove(ShipMove move) {
 		movePercent = 0.0f;
 
 		pathPoints = new List<Vector3>();
@@ -269,38 +286,19 @@ public class ShipController : MonoBehaviour {
         }
     }
 
-	void Update () {
-
-		CheckDeselect();
-
-	}
-
 	void CheckDeselect() {
-		if(!hover && selected && Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
+		if(selected && Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
 			playerController.DeselectObject();
 			selected = false;
 		}
-
-		hover = false;
-	}
-
-	void OnMouseOver() {
-		if(Input.GetMouseButtonDown(0)) {
-            Clicked();
-		}
-
-		hover = true;
 	}
 
     public void Clicked()
     {
         if(playerController != null)
         {
-            playerController.SelectObject(this.gameObject);
-            selected = true;
+            selected = playerController.SelectObject(this.gameObject);
         }
-
-        hover = true;
     }
 
     public void Select() {
@@ -423,10 +421,13 @@ public class ShipController : MonoBehaviour {
 
     public void UpdateVisualShipLevel(float height)
     {
-        Vector3 pos = visualHolder.transform.localPosition;
-        pos.Set(pos.x, height, pos.z);
-        visualHolder.transform.localPosition = pos;
+        if(visualHolder.transform != null)
+        {
+            Vector3 pos = visualHolder.transform.localPosition;
+            pos.Set(pos.x, height, pos.z);
+            visualHolder.transform.localPosition = pos;
 
-        pathSelectionController.UpdateVisualHeight(visualHolder.transform.position.y);
+            pathSelectionController.UpdateVisualHeight(visualHolder.transform.position.y);
+        }
     }
 }

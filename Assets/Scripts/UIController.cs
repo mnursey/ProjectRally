@@ -29,17 +29,17 @@ public class UIController : MonoBehaviour {
 	private Color defaultColor;
 
 	public PlayerController playerController;
-
+    public bool clickedUIThisFrame = false;
 
 	// Use this for initialization
 	void Start () {
+        // TODO fix this
 		// This is hacky
 		defaultColor = EnergyActionSelect.color;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-
+	void FixedUpdate () {
+        clickedUIThisFrame = false;
     }
 
     public void UpdateCommandUI(string directionName, int selectedAction) {
@@ -76,24 +76,29 @@ public class UIController : MonoBehaviour {
 
 	public void LeftMoveButtonDown () {
 		playerController.DecreaseSelectedShipMove();
-	}
+        clickedUIThisFrame = true;
+
+    }
 
 	public void RightMoveButtonDown () {
 		playerController.IncreaseSelectedShipMove();
+        clickedUIThisFrame = true;
+    }
 
-	}
-
-	public void SelectEnergy() {
+    public void SelectEnergy() {
 		playerController.SetSelectedShipAction((int)GlobelShipActionsEnums.BasicEnergy);
-	}
+        clickedUIThisFrame = true;
+    }
 
-	public void SelectRocket() {
+    public void SelectRocket() {
 		playerController.SetSelectedShipAction((int)GlobelShipActionsEnums.BasicRocket);
-	}
+        clickedUIThisFrame = true;
+    }
 
-	public void SelectShield() {
+    public void SelectShield() {
 		playerController.SetSelectedShipAction((int)GlobelShipActionsEnums.BasicShield);
-	}
+        clickedUIThisFrame = true;
+    }
 
     public void EnableWinText(bool enable)
     {
@@ -157,7 +162,7 @@ public class UIController : MonoBehaviour {
 
     public void EnableInfoUI(bool enable)
     {
-        Debug.Log("Info " + enable.ToString());
+        //Debug.Log("Info " + enable.ToString());
 
         if (enable)
         {
@@ -174,7 +179,7 @@ public class UIController : MonoBehaviour {
 
     public void EnableCommandUI(bool enable)
     {
-        Debug.Log("Cmd " + enable.ToString());
+        //Debug.Log("Cmd " + enable.ToString());
 
         if (enable)
         {
@@ -220,15 +225,18 @@ public class UIController : MonoBehaviour {
     public void FindGame()
     {
         playerController.ConnectToGame();
+        clickedUIThisFrame = true;
     }
 
     public void QuitGame()
     {
         playerController.QuitGame();
+        clickedUIThisFrame = true;
     }
 
     public void EndTurn()
     {
         playerController.EndTurn();
+        clickedUIThisFrame = true;
     }
 }
