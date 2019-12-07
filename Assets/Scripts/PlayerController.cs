@@ -66,7 +66,11 @@ public class PlayerController : MonoBehaviour {
                 if (m != n)
                 {
                     float sign = m.shipID > n.shipID ? 1 : -1;
-                    height += sign * visualShipViaulHeightOffset * calcHeightDiff(Vector3.Distance(m.transform.position, n.transform.position));
+
+                    if(m != null && n != null)
+                    {
+                        height += sign * visualShipViaulHeightOffset * calcHeightDiff(Vector3.Distance(m.transform.position, n.transform.position));
+                    }
                 }
             }
 

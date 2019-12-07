@@ -53,20 +53,19 @@ public class UIController : MonoBehaviour {
 		foreach (Image b in actionIdButtonMap.Values) {
 			if(b != actionIdButtonMap[selectedAction]) {
 				b.color = defaultColor;
-				//UpdatePanelColor(b, defaultColor);
+				UpdatePanelColor(b, defaultColor);
 			}
 		}
 
-		//UpdatePanelColor(actionIdButtonMap[selectedAction], selectedColor);
+		UpdatePanelColor(actionIdButtonMap[selectedAction], selectedColor);
 		actionIdButtonMap[selectedAction].color = selectedColor;
 		directionText.text = directionName;
 	}
 
-	/*private void UpdatePanelColor(Image b, Color c) {
-		ColorBlock cb = b.colors;
-		cb.normalColor = c;
-		b.colors = cb;
-	}*/
+	private void UpdatePanelColor(Image b, Color c) {
+        Color cHat = new Color(c.r, c.g, c.b, b.color.a);
+        b.color = cHat;
+	}
 
 	public void UpdateInfoUI(string shipName, string shipHealth, string shipRockets, string shipEnergy) {
 		infoShipName.text = shipName;
