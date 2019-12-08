@@ -103,6 +103,12 @@ public class PlayerController : MonoBehaviour {
         if(clientController.state == ClientState.IDLE)
         {
             uiController.EnableMainMenuUI(false, EnableLoadUI);
+
+            if(uiController.GetServerIP() != "")
+            {
+                clientController.ip = uiController.GetServerIP();
+            }
+
             clientController.Connect();
             loadUINeeded = true;
         }

@@ -33,6 +33,8 @@ public class UIController : MonoBehaviour {
 	public PlayerController playerController;
     public bool clickedUIThisFrame = false;
 
+    public InputField ipField;
+
 	// Use this for initialization
 	void Start () {
         // TODO fix this
@@ -42,6 +44,11 @@ public class UIController : MonoBehaviour {
 	
 	void FixedUpdate () {
         clickedUIThisFrame = false;
+    }
+
+    public string GetServerIP()
+    {
+        return ipField.textComponent.text;
     }
 
     public void UpdateCommandUI(string directionName, List<ShipActionAvailablityEnum> availableActions) {

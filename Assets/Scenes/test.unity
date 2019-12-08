@@ -7770,6 +7770,7 @@ MonoBehaviour:
   menuUI: {fileID: 1075874232}
   loadUI: {fileID: 1259224385}
   selectedColor: {r: 0.8938634, g: 0.9044118, b: 0.13965185, a: 1}
+  notEnoughEnergyColor: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}
   playerController: {fileID: 1547930812}
   clickedUIThisFrame: 0
 --- !u!1 &1816815711
