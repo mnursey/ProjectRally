@@ -6,6 +6,9 @@ using System.Collections.Generic;
 [Serializable]
 public enum ShipStateEnum {IDLE, MOVING, ACTION};
 
+// Enabled -> Ship can use, Disabled -> ship cannot use. Hidden from UI, Selected -> Selected action, Cannot use -> ship could use, but not in correct state ( energy )
+public enum ShipActionAvailablityEnum { ENABLED, DISABLED, SELECTED, CANNOT_USE};
+
 public static class BezierCurve {
 	public static Vector3 Curve(List<Vector3> points, float t){
 		
@@ -78,9 +81,9 @@ public enum GlobelShipActionsEnums {BasicEnergy, BasicRocket, BasicShield}
 public static class GlobalShipActions {
 	public static ShipAction[] ShipActions(){
 		ShipAction[] actions = new ShipAction[] {
-			new ShipAction("Basic Energy", ShipActionType.ENERGY),
-			new ShipAction("Basic Rocket", ShipActionType.SHOOT),
-			new ShipAction("Basic Shield", ShipActionType.SHIELD),
+			new ShipAction("Basic Energy", ShipActionType.ENERGY, 3),
+			new ShipAction("Basic Rocket", ShipActionType.SHOOT, -2),
+			new ShipAction("Basic Shield", ShipActionType.SHIELD, -3),
 		};
 
 		return actions;
@@ -97,10 +100,12 @@ public class ShipAction {
 	public String name;
 	public ShipActionType type;
 	public bool complete = false;
+    public int energyDelta = 0;
 
-	public ShipAction(String name, ShipActionType type){
+	public ShipAction(String name, ShipActionType type, int energyDelta){
 		this.name = name;
 		this.type = type;
+        this.energyDelta = energyDelta;
 	}
 }
 

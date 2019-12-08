@@ -26,7 +26,9 @@ public class UIController : MonoBehaviour {
     public GameObject loadUI;
 
     public Color selectedColor = Color.yellow;
-	private Color defaultColor;
+    public Color notEnoughEnergyColor = Color.red;
+
+    private Color defaultColor;
 
 	public PlayerController playerController;
     public bool clickedUIThisFrame = false;
@@ -42,7 +44,10 @@ public class UIController : MonoBehaviour {
         clickedUIThisFrame = false;
     }
 
-    public void UpdateCommandUI(string directionName, int selectedAction) {
+    public void UpdateCommandUI(string directionName, List<ShipActionAvailablityEnum> availableActions) {
+
+        // Check if ship has enough energy for each action
+
 		// This should match Ship Utils
 		IDictionary<int, Image> actionIdButtonMap = new Dictionary<int, Image>(){
 			{(int)GlobelShipActionsEnums.BasicEnergy, EnergyActionSelect},
@@ -50,15 +55,26 @@ public class UIController : MonoBehaviour {
 			{(int)GlobelShipActionsEnums.BasicShield, ShieldActionSelect}
 		};
 
-		foreach (Image b in actionIdButtonMap.Values) {
-			if(b != actionIdButtonMap[selectedAction]) {
-				b.color = defaultColor;
-				UpdatePanelColor(b, defaultColor);
-			}
+        List<Image> imgList = new List<Image>(actionIdButtonMap.Values);
+
+		for(int i = 0; i < actionIdButtonMap.Values.Count; ++i) {
+            Image b = imgList[i];
+
+            Color tempColor = defaultColor;
+
+            if (availableActions[i] == ShipActionAvailablityEnum.SELECTED)
+            {
+                tempColor = selectedColor;
+            }
+
+            if (availableActions[i] == ShipActionAvailablityEnum.CANNOT_USE)
+            {
+                tempColor = notEnoughEnergyColor;
+            }
+
+			UpdatePanelColor(b, tempColor);
 		}
 
-		UpdatePanelColor(actionIdButtonMap[selectedAction], selectedColor);
-		actionIdButtonMap[selectedAction].color = selectedColor;
 		directionText.text = directionName;
 	}
 

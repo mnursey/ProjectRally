@@ -285,7 +285,37 @@ public class GameRunner : MonoBehaviour {
 		shipCommands = new List<ShipCommand>();
 	}
 
-	public bool StepThroughSim () {
+    public static List<ShipActionAvailablityEnum> GetShipActionAvailability(ShipController shipController, ShipCommand shipCommand)
+    {
+        ShipAction[] shipActions = GlobalShipActions.ShipActions();
+
+        List<ShipActionAvailablityEnum> shipActionAvailabilty = new List<ShipActionAvailablityEnum>();
+
+        for (int i = 0; i < shipActions.Length; ++i)
+        {
+            ShipAction a = shipActions[i];
+            ShipActionAvailablityEnum aa = ShipActionAvailablityEnum.DISABLED;
+
+            if (a.energyDelta + shipController.energy >= 0)
+            {
+                aa = ShipActionAvailablityEnum.ENABLED;
+            } else
+            {
+                aa = ShipActionAvailablityEnum.CANNOT_USE;
+            }
+
+            if (GlobalShipActions.GetGlobalActionIndex(shipCommand.shipAction) == i)
+            {
+                aa = ShipActionAvailablityEnum.SELECTED;
+            }
+
+            shipActionAvailabilty.Add(aa);
+        }
+
+        return shipActionAvailabilty;
+    }
+
+    public bool StepThroughSim () {
 
 		bool finished = true;
 
@@ -305,16 +335,16 @@ public class GameRunner : MonoBehaviour {
 					break;
 
 				case ShipActionType.SHIELD:
-					if(sc.energy >= 3) {
-						sc.energy += -3;
+					if(sc.energy + action.energyDelta >= 0) {
+						sc.energy += action.energyDelta;
 					} else {
 						action.complete = true;
 					}
 					break;
 
 				case ShipActionType.SHOOT:
-					if(sc.energy >= 2) {
-						sc.energy += -2;
+					if(sc.energy + action.energyDelta >= 0) {
+						sc.energy += action.energyDelta;
                         
                         sc.SetupSimArcVisual();
 					} else {
@@ -355,7 +385,7 @@ public class GameRunner : MonoBehaviour {
 			if(!action.complete) {
 				switch(action.type) {
 				case ShipActionType.ENERGY:
-					sc.BoostEnergy(3);
+					sc.BoostEnergy(action.energyDelta);
 					action.complete = true;
 					break;
 

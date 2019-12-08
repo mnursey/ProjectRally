@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviour {
 		this.shipControllers = shipControllers;
 		PopulateShipCommands();
 		canUpdateCmds = true;
-
+        UpdateCommandUI();
         BeginTurnTimer();
 	}
 
@@ -276,7 +276,8 @@ public class PlayerController : MonoBehaviour {
 
 			if (shipController != null && shipController.shipOwner == playerID) {
 				ShipCommand shipCommand = GetShipCommand(shipController);
-				uiController.UpdateCommandUI(shipCommand.shipMove.name, GlobalShipActions.GetGlobalActionIndex(shipCommand.shipAction));
+
+				uiController.UpdateCommandUI(shipCommand.shipMove.name, GameRunner.GetShipActionAvailability(shipController, shipCommand));
 			}
 		}
 	}
@@ -291,8 +292,13 @@ public class PlayerController : MonoBehaviour {
 				List<ShipAction> shipActions = new List<ShipAction>(GlobalShipActions.ShipActions());
 
 				if (shipActions.Count > actionID && 0 <= actionID) {
-					shipCommand.shipAction = shipActions[actionID];
-					shipController.UpdateActionVisual();
+                    List<ShipActionAvailablityEnum> actionAvailability = GameRunner.GetShipActionAvailability(shipController, shipCommand);
+
+                    if(actionAvailability[actionID] == ShipActionAvailablityEnum.ENABLED)
+                    {
+                        shipCommand.shipAction = shipActions[actionID];
+                        shipController.UpdateActionVisual();
+                    }
 				}
 			}
 		}
