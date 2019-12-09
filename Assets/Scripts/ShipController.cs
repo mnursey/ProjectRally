@@ -421,7 +421,7 @@ public class ShipController : MonoBehaviour {
 
     public void UpdateVisualShipLevel(float height)
     {
-        if(visualHolder.transform != null)
+        if(visualHolder != null && visualHolder.transform != null)
         {
             Vector3 pos = visualHolder.transform.localPosition;
             pos.Set(pos.x, height, pos.z);
