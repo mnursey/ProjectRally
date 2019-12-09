@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour {
     public float defaultShipVisualHeight = 0.0f;
     public float visualShipViaulHeightOffset = 1.5f;
 
+    public AudioSource selectedAudio;
+
 
     void Start () {
         clientController = GetComponent<ClientController>();
@@ -219,7 +221,6 @@ public class PlayerController : MonoBehaviour {
     }
 
 	public bool SelectObject(GameObject obj) {
-        Debug.Log(uiController.clickedUIThisFrame);
         if (!uiController.clickedUIThisFrame)
         {
 
@@ -229,6 +230,8 @@ public class PlayerController : MonoBehaviour {
 
             if (selectedObject != null)
             {
+                selectedAudio.Play();
+
                 ShipController shipController = selectedObject.GetComponent<ShipController>();
 
                 if (shipController != null)
