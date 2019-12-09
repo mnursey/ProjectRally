@@ -827,10 +827,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1808508859}
     - target: {fileID: 11492538, guid: 929a30ddaf52bc641a648e461b9e7c92, type: 3}
-      propertyPath: defaultSpawns.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 11492538, guid: 929a30ddaf52bc641a648e461b9e7c92, type: 3}
       propertyPath: defaultSpawns.Array.data[0]
       value: 
       objectReference: {fileID: 820817272}
@@ -908,7 +904,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ships
+  m_Text: ~Insert Title Here~
 --- !u!222 &486836966
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1262,8 +1258,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 140, y: -38}
-  m_SizeDelta: {x: 98, y: 19.330002}
+  m_AnchoredPosition: {x: 123.92, y: -32.74}
+  m_SizeDelta: {x: 130.17, y: 29.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &753832862
 MonoBehaviour:
@@ -1478,7 +1474,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.49999428}
+  m_AnchoredPosition: {x: 0, y: -0.4999962}
   m_SizeDelta: {x: -20, y: -13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &863197520
@@ -1509,12 +1505,12 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 6
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 6
+    m_MinSize: 1
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 1
@@ -8298,8 +8294,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 138858, guid: 837de5fdf71cf814c8e771a0ecaff495, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_Name
+      value: Server
       objectReference: {fileID: 0}
     - target: {fileID: 402938, guid: 837de5fdf71cf814c8e771a0ecaff495, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8333,13 +8329,17 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 11421672, guid: 837de5fdf71cf814c8e771a0ecaff495, type: 3}
-      propertyPath: endOfGameDisconnectWait
-      value: 15
+    - target: {fileID: 402938, guid: 837de5fdf71cf814c8e771a0ecaff495, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 11428514, guid: 837de5fdf71cf814c8e771a0ecaff495, type: 3}
-      propertyPath: defaultSpawns.Array.size
-      value: 2
+    - target: {fileID: 402938, guid: 837de5fdf71cf814c8e771a0ecaff495, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 402938, guid: 837de5fdf71cf814c8e771a0ecaff495, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11428514, guid: 837de5fdf71cf814c8e771a0ecaff495, type: 3}
       propertyPath: defaultSpawns.Array.data[0]
@@ -9012,12 +9012,12 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 6
+    m_FontSize: 12
     m_FontStyle: 2
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 76
-    m_Alignment: 0
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -9048,7 +9048,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.49999428}
+  m_AnchoredPosition: {x: 0, y: -0.4999962}
   m_SizeDelta: {x: -20, y: -13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2027551821

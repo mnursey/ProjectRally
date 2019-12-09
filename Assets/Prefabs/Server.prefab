@@ -47,7 +47,7 @@ MonoBehaviour:
   ch:
     connections: []
   state: 0
-  port: 10018
+  port: 40001
   numberOfPlayersUntilStart: 2
   playerIDTracker: 0
   endOfGameDisconnectWait: 15
@@ -75,3 +75,6 @@ MonoBehaviour:
   squareBoundXNeg: -32
   squareBoundZPos: 24
   squareBoundZNeg: -32
+  defaultSpawns:
+  - {fileID: 0}
+  - {fileID: 0}

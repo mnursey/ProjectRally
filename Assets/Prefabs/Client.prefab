@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 0}
   ip: 192.168.1.90
-  port: 10018
+  port: 40001
   send: 0
   msg: 
   state: 0
@@ -76,6 +76,9 @@ MonoBehaviour:
   squareBoundXNeg: -32
   squareBoundZPos: 24
   squareBoundZNeg: -32
+  defaultSpawns:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1547930812
 MonoBehaviour:
   m_ObjectHideFlags: 0
