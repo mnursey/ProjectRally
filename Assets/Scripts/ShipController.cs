@@ -49,6 +49,9 @@ public class ShipController : MonoBehaviour {
 	public ShieldVisualController shieldVisualController;
 	public VisualTriangleController energyVisualController;
 
+    public ParticleSystem shieldEffect;
+    public ParticleSystem energyEffect;
+
     public GameObject visualHolder;
 
     bool clicked = false;
@@ -240,6 +243,7 @@ public class ShipController : MonoBehaviour {
         // Show shield anim
 
         shieldVisualController.EnableShieldVisual();
+        shieldEffect.Play();
 
         if (playerController != null && playerController.GetSelectedObject() == this.gameObject)
         {
@@ -253,6 +257,7 @@ public class ShipController : MonoBehaviour {
         // Show energy animation
 
         energyVisualController.EnableTriangle();
+        energyEffect.Play();
 
         if (playerController != null && playerController.GetSelectedObject() == this.gameObject)
         {
@@ -279,6 +284,9 @@ public class ShipController : MonoBehaviour {
         arcViewController.DisableArc();
         shieldVisualController.DisableShieldVisual();
         energyVisualController.DisableTriangle();
+
+        shieldEffect.Stop();
+        energyEffect.Stop();
 
         if (playerController != null && playerController.GetSelectedObject() == this.gameObject)
         {
