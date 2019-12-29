@@ -12,7 +12,11 @@ public class UIController : MonoBehaviour {
 	public Text infoShipRockets;
 	public Text infoShipEnergy;
 
-	public Image EnergyActionSelect;
+    public Text infoShipHealthDelta;
+    public Text infoShipRocketsDelta;
+    public Text infoShipEnergyDelta;
+
+    public Image EnergyActionSelect;
 	public Image RocketActionSelect;
 	public Image ShieldActionSelect;
 	public Text directionText;
@@ -97,7 +101,25 @@ public class UIController : MonoBehaviour {
 		infoShipEnergy.text = shipEnergy;
 	}
 
-	public void LeftMoveButtonDown () {
+    public void UpdateInfoDeltas(string shipHealthDelta, string shipRocketsDelta, string shipEnergyDelta, Color healthDeltaColor, Color rocketsDeltaColor, Color energyDeltaColor)
+    {
+        infoShipHealthDelta.text = shipHealthDelta;
+        infoShipRocketsDelta.text = shipRocketsDelta;
+        infoShipEnergyDelta.text = shipEnergyDelta;
+
+        infoShipHealthDelta.color = healthDeltaColor;
+        infoShipRocketsDelta.color = rocketsDeltaColor;
+        infoShipEnergyDelta.color = energyDeltaColor;
+    }
+
+    public void UpdateInfoDeltas(string shipHealthDelta, string shipRocketsDelta, string shipEnergyDelta)
+    {
+        infoShipHealthDelta.text = shipHealthDelta;
+        infoShipRocketsDelta.text = shipRocketsDelta;
+        infoShipEnergyDelta.text = shipEnergyDelta;
+    }
+
+    public void LeftMoveButtonDown () {
 		playerController.DecreaseSelectedShipMove();
         clickedUIThisFrame = true;
 

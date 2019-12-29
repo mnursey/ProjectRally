@@ -151,6 +151,7 @@ public class PlayerController : MonoBehaviour {
 		PopulateShipCommands();
 		canUpdateCmds = true;
         UpdateCommandUI();
+        UpdateInfoUI();
         BeginTurnTimer();
 	}
 
@@ -216,6 +217,40 @@ public class PlayerController : MonoBehaviour {
 
 			if (shipController != null ) {
 				uiController.UpdateInfoUI(shipController.shipName, shipController.health.ToString(), shipController.rocketCount.ToString(), shipController.energy.ToString());
+
+                ShipCommand shipCommand = GetShipCommand(shipController);
+
+                // Refactor this to UI Controller
+
+                int energyDelta = shipCommand.shipAction.energyDelta;
+                Color energyDeltaColor;
+                string energyDeltaString = "";
+
+                if (energyDelta > 0)
+                {
+                    energyDeltaColor = Color.green;
+                    energyDeltaString += "+" + energyDelta;
+                } else
+                {
+                    if(energyDelta < 0)
+                    {
+                        energyDeltaColor = Color.red;
+                        energyDeltaString += energyDelta;
+                    }
+                    else
+                    {
+                        energyDeltaColor = Color.white;
+                        energyDeltaString += "+" + energyDelta;
+                    }
+                }
+
+                //don't show ui delta for enemy ships
+                if(shipController.shipOwner != playerID)
+                {
+                    energyDeltaString = "";
+                }
+
+                uiController.UpdateInfoDeltas("", "", energyDeltaString, Color.white, Color.white, energyDeltaColor);
 			}
 		}
     }
@@ -243,6 +278,7 @@ public class PlayerController : MonoBehaviour {
                     {
                         uiController.EnableCommandUI(true);
                         UpdateCommandUI();
+                        UpdateInfoUI();
                     }
                 }
             }
@@ -266,6 +302,8 @@ public class PlayerController : MonoBehaviour {
 
 			if (shipController != null ) {
 				uiController.UpdateInfoUI("-", "-", "-", "-");
+                uiController.UpdateInfoDeltas("", "", "");
+
                 // HIDE INFO UI
                 uiController.EnableInfoUI(false);
 				shipController.Deselect();
@@ -313,9 +351,10 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		UpdateCommandUI();
-	}
+        UpdateInfoUI();
+    }
 
-	public void SetSelectedShipMove (int moveID) {
+    public void SetSelectedShipMove (int moveID) {
 		if(selectedObject != null && canUpdateCmds) {
             ShipController shipController = selectedObject.GetComponent<ShipController>();
 
@@ -332,9 +371,10 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		UpdateCommandUI();
-	}
-		
-	public void IncreaseSelectedShipAction () {
+        UpdateInfoUI();
+    }
+
+    public void IncreaseSelectedShipAction () {
 		if(selectedObject != null) {
             ShipController shipController = selectedObject.GetComponent<ShipController>();
 
