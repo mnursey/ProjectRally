@@ -220,9 +220,31 @@ public class PlayerController : MonoBehaviour {
 
                 ShipCommand shipCommand = GetShipCommand(shipController);
 
+                // Todo
                 // Refactor this to UI Controller
 
                 int energyDelta = shipCommand.shipAction.energyDelta;
+                int shipEnergy = shipController.energy;
+                int maxShipEnergy = shipController.maxEnergy;
+
+                bool maxEnergy = false;
+                bool overcharged = false;
+
+                if((energyDelta + shipEnergy) > maxShipEnergy){
+                    energyDelta = maxShipEnergy - shipEnergy;
+
+                    if(energyDelta == 0)
+                    {
+                        maxEnergy = true;
+                    }
+
+                    if(energyDelta < 0)
+                    {
+                        energyDelta = 0;
+                        overcharged = true;
+                    }
+                }
+
                 Color energyDeltaColor;
                 string energyDeltaString = "";
 
@@ -239,8 +261,23 @@ public class PlayerController : MonoBehaviour {
                     }
                     else
                     {
-                        energyDeltaColor = Color.white;
-                        energyDeltaString += "+" + energyDelta;
+                        if(maxEnergy)
+                        {
+                            energyDeltaColor = Color.green;
+                            energyDeltaString += "MAX";
+                        } else
+                        {
+                            if(overcharged)
+                            {
+                                energyDeltaColor = Color.yellow;
+                                energyDeltaString += "+MAX";
+                            } else
+                            {
+                                energyDeltaColor = Color.white;
+                                energyDeltaString += "+" + energyDelta;
+                            }
+                        }
+
                     }
                 }
 
