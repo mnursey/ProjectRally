@@ -153,7 +153,7 @@ public class UIController : MonoBehaviour {
     public void EnableLoadUI(bool enable, string text)
     {
         loadUI.SetActive(enable);
-        loadUI.GetComponentInChildren<TextMeshProUGUI>().text = text;
+        loadUI.GetComponentInChildren<Text>().text = text;
     }
 
     public void EnableWinText(bool enable, bool won) { 
