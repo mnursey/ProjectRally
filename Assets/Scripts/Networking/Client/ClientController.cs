@@ -19,7 +19,7 @@ public class ClientController : MonoBehaviour {
 	public PlayerController playerController;
 
 	ClientConnectionHandler ch;
-	GameRunner gr;
+	public GameRunner gr;
 	public string ip;
 	public int port = 10018;
 	public bool send;
@@ -99,6 +99,13 @@ public class ClientController : MonoBehaviour {
                 if (gr.StepThroughSim())
                 {
                     gr.SetGameState(newGameState);
+                    Debug.Log("Turn: " + gr.GetTurn());
+
+                    // Check if first turn
+                    if(gr.GetTurn() == 0)
+                    {
+                        playerController.LookAtOwnShip();
+                    }
 
                     state = ClientState.COMMAND;
 
@@ -265,10 +272,8 @@ public class ClientConnectionHandler {
 
         BeginReceive();
 
-		if(connectedCallback != null) {
-			connectedCallback();
-		}
-	}
+        connectedCallback?.Invoke();
+    }
 
 	private void BeginReceive() {
         if(CheckIfSocketIsConnected(co.socket))
@@ -295,10 +300,8 @@ public class ClientConnectionHandler {
             BeginReceive();
         }
 
-        if (receiveCallback != null) {
-			receiveCallback(data);
-		}
-	}
+        receiveCallback?.Invoke(data);
+    }
 
 	public void BeginSend(String message) {
 		BeginSend(message, null);

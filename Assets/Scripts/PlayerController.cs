@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public delegate void EndTurnCallback (CmdState cmd);
 
+public enum CameraStateEnum { Idle, StartGame, MenuLocation };
+
 public class PlayerController : MonoBehaviour {
 
 	public int playerID = 0;
@@ -33,10 +35,15 @@ public class PlayerController : MonoBehaviour {
 
     public AudioSource selectedAudio;
 
+    public CameraStateEnum cameraState = CameraStateEnum.MenuLocation;
+
+    public CameraController playerCamera;
+    public Transform mainMenuTransform;
 
     void Start () {
         clientController = GetComponent<ClientController>();
-	}
+        ShowMainMenu();
+    }
 
 	void Update () {
 
@@ -45,7 +52,7 @@ public class PlayerController : MonoBehaviour {
         if (enableTurnTimer)
         {
             currentTurnTime += Time.deltaTime;
-            uiController.UpdateTurnTimerText(maxTurnTime -  currentTurnTime);
+            uiController.UpdateTurnTimerText(maxTurnTime - currentTurnTime);
 
             if (currentTurnTime > maxTurnTime)
             {
@@ -90,6 +97,39 @@ public class PlayerController : MonoBehaviour {
     {
         uiController.EnableMainMenuUI(true, null);
         uiController.DisableGameUI();
+
+        cameraState = CameraStateEnum.MenuLocation;
+        playerCamera.mode = CameraModeEnum.MoveBehindPanTo;
+        playerCamera.targetObject = mainMenuTransform;
+    }
+
+    public void LookAtOwnShip()
+    {
+        List<ShipController> ships = clientController.gr.GetShipControllers();
+
+        ShipController targetShip = null;
+
+        foreach (ShipController s in ships)
+        {
+            if (s.shipOwner == playerID)
+            {
+                targetShip = s;
+                break;
+            }
+        }
+
+        if(targetShip != null)
+        {
+            playerCamera.mode = CameraModeEnum.MoveBehindPanTo;
+            playerCamera.targetObject = targetShip.transform;
+            playerCamera.moveBehindPanToCallback = EnableFreeLookCamera;
+        }
+    }
+
+    public void EnableFreeLookCamera()
+    {
+        playerCamera.mode = CameraModeEnum.FreeLook;
+        playerCamera.targetObject = null;
     }
 
     void EnableLoadUI()

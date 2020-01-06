@@ -117,7 +117,7 @@ public class GameRunner : MonoBehaviour {
         return t;
 	}
 
-	public void AddPlayer (int playerID) {
+	public void AddPlayer(int playerID) {
 		// Create player. Create player spawn. Create 3 ships for player at players spawn with owner set to player
 		Transform spawn = GetOpenSpawn();
 
