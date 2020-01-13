@@ -114,10 +114,7 @@ public class ServerController : MonoBehaviour {
         gr.Reset(true);
         state = ServerState.WAITING_TO_START;
 
-        if(playerIDTracker > Int32.MaxValue * 0.9f)
-        {
-            playerIDTracker = 0;
-        }
+        playerIDTracker = 0;
     }
 
 

@@ -10153,6 +10153,151 @@ PrefabInstance:
       propertyPath: chunkColorPalette.Array.data[4].b
       value: 0.19023673
       objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[6].r
+      value: 0.13394445
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[6].g
+      value: 0.7683126
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[6].b
+      value: 0.8113208
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[7].r
+      value: 0.13333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[7].g
+      value: 0.7686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[7].b
+      value: 0.8117648
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[8].r
+      value: 0.13333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[8].g
+      value: 0.7686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[8].b
+      value: 0.8117648
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[9].r
+      value: 0.13333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[9].g
+      value: 0.7686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[9].b
+      value: 0.8117648
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[10].r
+      value: 0.13333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[10].g
+      value: 0.7686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[10].b
+      value: 0.8117648
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[11].r
+      value: 0.13333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[11].g
+      value: 0.7686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[11].b
+      value: 0.8117648
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[0].r
+      value: 0.30980393
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[0].g
+      value: 0.3137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[0].b
+      value: 0.31764707
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[1].r
+      value: 0.30980393
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[1].g
+      value: 0.3137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[1].b
+      value: 0.31764707
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[2].r
+      value: 0.30980393
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[2].g
+      value: 0.3137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: chunkColorPalette.Array.data[2].b
+      value: 0.31764707
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: numberOfChunksZ
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+        type: 3}
+      propertyPath: numberOfChunksX
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6887037942478104921, guid: 5086bcf2bb4398842a918512d33c4035,
         type: 3}
       propertyPath: m_Name
