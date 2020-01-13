@@ -69,7 +69,7 @@ public class CameraController : MonoBehaviour
 
             Quaternion newRotaion = Quaternion.Slerp(transform.rotation, targetRotation, panToSpeed * Time.deltaTime);
 
-            float rotationDelta = Quaternion.Angle(newRotaion, transform.rotation) * Mathf.Deg2Rad;
+            float rotationDelta = Quaternion.Angle(newRotaion, targetRotation) * Mathf.Deg2Rad;
 
             transform.rotation = newRotaion;
 
