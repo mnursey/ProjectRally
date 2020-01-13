@@ -65,9 +65,9 @@ public class CameraController : MonoBehaviour
 
             // Look at target object
 
-            Vector3 targetDirection = targetObject.position - transform.position;
-            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, panToSpeed * Time.deltaTime, panToSpeed);
-            Quaternion newRotaion = Quaternion.LookRotation(newDirection);
+            Quaternion targetRotation = Quaternion.LookRotation(targetObject.position - transform.position);
+
+            Quaternion newRotaion = Quaternion.Slerp(transform.rotation, targetRotation, panToSpeed * Time.deltaTime);
 
             float rotationDelta = Quaternion.Angle(newRotaion, transform.rotation) * Mathf.Deg2Rad;
 
