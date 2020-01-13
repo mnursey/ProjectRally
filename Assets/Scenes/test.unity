@@ -7929,7 +7929,7 @@ MonoBehaviour:
   moveBehindHeight: 10
   moveBehindSpeed: 5
   panToSpeed: 0.5
-  finishedDelta: 0.0001
+  finishedDelta: 0.01
 --- !u!114 &1631258581
 MonoBehaviour:
   m_ObjectHideFlags: 0

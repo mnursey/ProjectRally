@@ -467,6 +467,7 @@ public class GameRunner : MonoBehaviour {
                 if(sc.transform.position.x > squareBoundXPos || sc.transform.position.x < squareBoundXNeg || sc.transform.position.z > squareBoundZPos || sc.transform.position.z < squareBoundZNeg)
                 {
                     sc.TakeDamage(1, true);
+                    sc.ShowVisualDamage(serverMode);
                 }
 
                 sc.EndSimPhase();

@@ -38,6 +38,7 @@ public class ShipController : MonoBehaviour {
     private bool simMode = false;
     private bool hasExploded = false;
     public GameObject explosionPrefab;
+    public GameObject damageEffectPrefab;
 
     public float aimArc;
 	public float rocketMinDistance;
@@ -179,6 +180,14 @@ public class ShipController : MonoBehaviour {
 
             // Destory ship
             Destroy(this.gameObject);
+        }
+    }
+
+    public void ShowVisualDamage(bool serverMode)
+    {
+        if (!serverMode)
+        {
+            Instantiate(damageEffectPrefab, this.transform.position, Quaternion.identity);
         }
     }
 
