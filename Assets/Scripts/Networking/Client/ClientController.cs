@@ -189,12 +189,15 @@ public class ClientController : MonoBehaviour {
     }
 
     void HandleAcceptJoin(NetworkingMessage inmsg) {
-		int playerID = int.Parse(inmsg.content);
+        GameStartInfo gsi = NetworkingMessageTranslator.ParseServerAcceptJoin(inmsg.content);
+        int playerID = gsi.playerID;
 
 		if(playerID > -1) {
             this.state = ClientState.JOIN_ACCEPTED;
             Debug.Log("Client Joined Server. PlayerID is " + playerID + " ... Waiting for game to start");
 			playerController.playerID = playerID;
+            gr.UpdateTerrainSeed(gsi.terrainSeed);
+
         } else {
 			Debug.Log("Client was not allowed to connect... Disconnecting");
 			SendDisconnect();

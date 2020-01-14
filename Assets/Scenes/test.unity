@@ -969,6 +969,10 @@ PrefabInstance:
       propertyPath: defaultSpawns.Array.data[1]
       value: 
       objectReference: {fileID: 2144366743}
+    - target: {fileID: 11492538, guid: 929a30ddaf52bc641a648e461b9e7c92, type: 3}
+      propertyPath: terrainGenerator
+      value: 
+      objectReference: {fileID: 636767129}
     - target: {fileID: 1547930812, guid: 929a30ddaf52bc641a648e461b9e7c92, type: 3}
       propertyPath: uiController
       value: 
@@ -1348,6 +1352,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 632655309}
   m_CullTransparentMesh: 0
+--- !u!114 &636767129 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6887037942478104920, guid: 5086bcf2bb4398842a918512d33c4035,
+    type: 3}
+  m_PrefabInstance: {fileID: 6887037943475162929}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77f12f22899e85b4a9c94da805e23636, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &651892305
 PrefabInstance:
   m_ObjectHideFlags: 0

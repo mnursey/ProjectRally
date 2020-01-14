@@ -37,8 +37,10 @@ public class ServerController : MonoBehaviour {
 		state = ServerState.OFF;
 
 		gr = GetComponent<GameRunner>();
+        gr.Reset(true);
+        gr.GenerateTerrainSeed();
 
-		ch = new ServerConnectionHandler(this.HandleIncomingData);
+        ch = new ServerConnectionHandler(this.HandleIncomingData);
 
 		cl = new ServerConnectionListener(port, 100, ch.AddConnection);
 	}
@@ -112,6 +114,7 @@ public class ServerController : MonoBehaviour {
     void ResetServer()
     {
         gr.Reset(true);
+        gr.GenerateTerrainSeed();
         state = ServerState.WAITING_TO_START;
 
         playerIDTracker = 0;
@@ -170,7 +173,7 @@ public class ServerController : MonoBehaviour {
 			co.serverPlayerID = playerIDTracker++;
 		}
 
-		String outmsg = NetworkingMessageTranslator.GenerateServerAcceptJoinMessage(co.serverPlayerID);
+		String outmsg = NetworkingMessageTranslator.GenerateServerAcceptJoinMessage(new GameStartInfo(co.serverPlayerID, gr.terrainSeed));
 
 		ch.BeginSend(co, outmsg);
 
@@ -208,6 +211,7 @@ public class ServerController : MonoBehaviour {
 		Debug.Log("Server Starting Game");
 
 		gr.Reset(true);
+        gr.GenerateTerrainSeed();
 
 		// Spawn player ships
 

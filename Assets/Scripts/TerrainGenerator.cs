@@ -14,6 +14,7 @@ public class TerrainGenerator : MonoBehaviour
     public int seed = 0;
     public GameObject chunkPrefab;
 
+    [SerializeField]
     public List<List<Chunk>> chunks = new List<List<Chunk>>();
     public IDictionary<string, Chunk> chunkLookup = new Dictionary<string, Chunk>();
 
@@ -22,11 +23,18 @@ public class TerrainGenerator : MonoBehaviour
 
     public List<Color> chunkColorPalette = new List<Color>();
 
+    [SerializeField]
     private bool generateTerrain = false;
+    [SerializeField]
     private bool finishedGeneration = false;
+    [SerializeField]
     private int genX = 0;
+    [SerializeField]
     private int genY = 0;
+    [SerializeField]
     private int genZ = 0;
+
+    private bool startTerrainGeneration = false;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +51,12 @@ public class TerrainGenerator : MonoBehaviour
         //    GenerateTerrain();
         //}
         
+        if(startTerrainGeneration)
+        {
+            BeginTerrainGeneration();
+            startTerrainGeneration = false;
+        }
+
         if(generateTerrain && !finishedGeneration)
         {
             GenerateTerrain();
@@ -53,6 +67,11 @@ public class TerrainGenerator : MonoBehaviour
             reset = false;
             chunks = new List<List<Chunk>>();
         }
+    }
+
+    public void TriggerTerrainGeneration()
+    {
+        startTerrainGeneration = true;
     }
 
     string GetChunkLookUpKey(int[] xyz)
@@ -66,7 +85,7 @@ public class TerrainGenerator : MonoBehaviour
         return GetChunkLookUpKey(xyz);
     }
 
-    int Generator(int x, int y, int z)
+    int Generator(int x, int y, int z, int seed)
     {
         Vector3[] generatorOctaves = new Vector3[] {
             // Frequency, Amplitude, Offset
@@ -79,12 +98,12 @@ public class TerrainGenerator : MonoBehaviour
 
         foreach(Vector3 v in generatorOctaves)
         {
-            height += Mathf.PerlinNoise((x + v.z) * v.x, (z + v.z) * v.x) * v.y;
+            height += Mathf.PerlinNoise((x + seed + v.z) * v.x, (z + seed + v.z) * v.x) * v.y;
         }
 
         if (y <= height)
         {
-            if (height < 4f)
+            if (height <= 4f)
             {
                 return 2;
             }
@@ -107,7 +126,7 @@ public class TerrainGenerator : MonoBehaviour
             {
                 for (int z = 0; z < voxels.GetLength(2); z++)
                 {
-                    voxels[x, y, z] = Generator(x + chunkX * Chunk.chunkSize, y + chunkY * Chunk.chunkSize, z + chunkZ * Chunk.chunkSize);
+                    voxels[x, y, z] = Generator(x + chunkX * Chunk.chunkSize, y + chunkY * Chunk.chunkSize, z + chunkZ * Chunk.chunkSize, seed);
                 }
             }
         }
@@ -117,6 +136,7 @@ public class TerrainGenerator : MonoBehaviour
 
     public void BeginTerrainGeneration()
     {
+        Debug.Log("Generating Terrain with seed " + seed);
         generateTerrain = true;
         finishedGeneration = false;
 
@@ -125,7 +145,7 @@ public class TerrainGenerator : MonoBehaviour
         {
             foreach (Chunk c in l.ToArray())
             {
-                DestroyImmediate(c.gameObject);
+                Destroy(c.gameObject);
             }
         }
 
@@ -144,6 +164,8 @@ public class TerrainGenerator : MonoBehaviour
         // Create chunks
         // Set each chunks terrain -> use terrain generator
         // Render each chunk
+
+        Debug.Log("Generating Terrain");
 
         if(genX < numberOfChunksX && genZ < numberOfChunksZ)
         {
@@ -181,6 +203,9 @@ public class TerrainGenerator : MonoBehaviour
                     UpdateSurroundingChunks();
                 }
             }
+        } else
+        {
+            finishedGeneration = true;
         }
     }
 

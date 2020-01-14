@@ -54,12 +54,13 @@ public static class NetworkingMessageTranslator {
 		return ToJson(msg);
 	}
 
-	public static string GenerateServerAcceptJoinMessage(int playerID) {
+	public static string GenerateServerAcceptJoinMessage(GameStartInfo gsi) {
 
 		NetworkingMessageType msgType = NetworkingMessageType.SERVER_JOIN_RESPONSE;
 
-		NetworkingMessage msg = new NetworkingMessage(msgType, playerID.ToString());
-		return ToJson(msg);
+		NetworkingMessage msg = new NetworkingMessage(msgType);
+        msg.content = ToJson(gsi);
+        return ToJson(msg);
 	}
 
 	public static NetworkingMessage ParseMessage(string json) {
@@ -77,6 +78,10 @@ public static class NetworkingMessageTranslator {
 	public static CmdState ParseShipCommands(string json) {
 		return JsonUtility.FromJson<CmdState>(json);
 	}
+
+    public static GameStartInfo ParseServerAcceptJoin(string json) {
+        return JsonUtility.FromJson<GameStartInfo>(json);
+    }
 }
 
 [Serializable]

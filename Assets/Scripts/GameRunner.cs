@@ -16,6 +16,7 @@ public class GameRunner : MonoBehaviour {
 
 	public GameObject shipPrefab;
 
+    public int terrainSeed;
 
     bool gameOver = false;
     int winner = -1;
@@ -42,6 +43,8 @@ public class GameRunner : MonoBehaviour {
 
     int spawnCount = 0;
     public List<Transform> defaultSpawns = new List<Transform>();
+
+    public TerrainGenerator terrainGenerator;
 
 	public GameRunner() {
 		Reset(false);
@@ -79,6 +82,23 @@ public class GameRunner : MonoBehaviour {
         gameOver = false;
         winner = -1;
         spawnCount = 0;
+    }
+
+    public void GenerateTerrainSeed()
+    {
+        terrainSeed = (int)UnityEngine.Random.Range(0.0f, 10000f);
+    }
+
+    public void UpdateTerrainSeed(int terrainSeed)
+    {
+        this.terrainSeed = terrainSeed;
+        Debug.Log("Client: Terrain seed " + terrainSeed.ToString());
+
+        if(terrainGenerator != null)
+        {
+            terrainGenerator.seed = this.terrainSeed;
+            terrainGenerator.TriggerTerrainGeneration();
+        }
     }
 
     private void RemoveGameObjects()
@@ -597,6 +617,19 @@ public class GameRunner : MonoBehaviour {
 	public int GetTurn () {
 		return turn;
 	}
+}
+
+[Serializable]
+public class GameStartInfo
+{
+    public int playerID;
+    public int terrainSeed;
+
+    public GameStartInfo(int playerID, int terrainSeed)
+    {
+        this.playerID = playerID;
+        this.terrainSeed = terrainSeed;
+    }
 }
 
 [Serializable]
