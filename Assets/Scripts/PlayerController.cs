@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour {
     private bool loadUINeeded = false;
 
     public float defaultShipVisualHeight = 0.0f;
-    public float visualShipViaulHeightOffset = 1.5f;
+    public float visualShipVisualHeightOffset = 1.5f;
 
     public AudioSource selectedAudio;
 
@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour {
 
                     if(m != null && n != null)
                     {
-                        height += sign * visualShipViaulHeightOffset * calcHeightDiff(Vector3.Distance(m.transform.position, n.transform.position));
+                        height += sign * visualShipVisualHeightOffset * calcHeightDiff(Vector3.Distance(m.transform.position, n.transform.position));
                     }
                 }
             }
