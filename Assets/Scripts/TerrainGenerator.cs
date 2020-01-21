@@ -101,17 +101,20 @@ public class TerrainGenerator : MonoBehaviour
             height += Mathf.PerlinNoise((x + seed + v.z) * v.x, (z + seed + v.z) * v.x) * v.y;
         }
 
+        if (y <= 3f)
+        {
+            // water
+            return 2;
+        }
+
         if (y <= height)
         {
-            if (height <= 4f)
-            {
-                return 2;
-            }
-
+            // grass
             return 1;
 
         } else
         {
+            // air
             return 0;
         }
     }
