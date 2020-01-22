@@ -51,7 +51,12 @@ public class CameraController : MonoBehaviour
 
     void MoveBehindPanTo()
     {
-        if(targetObject != null)
+        if (looking)
+        {
+            StopLooking();
+        }
+
+        if (targetObject != null)
         {
             // Get final Position
             Vector3 finalPosition = targetObject.position - (targetObject.forward * moveBehindDistance) + (targetObject.up * moveBehindHeight);

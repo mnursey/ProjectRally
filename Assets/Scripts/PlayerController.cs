@@ -101,6 +101,7 @@ public class PlayerController : MonoBehaviour {
         cameraState = CameraStateEnum.MenuLocation;
         playerCamera.mode = CameraModeEnum.MoveBehindPanTo;
         playerCamera.targetObject = mainMenuTransform;
+        playerCamera.moveBehindPanToCallback = () => playerCamera.mode = CameraModeEnum.Locked;
     }
 
     public void LookAtOwnShip()
