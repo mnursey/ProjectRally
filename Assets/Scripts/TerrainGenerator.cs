@@ -39,6 +39,7 @@ public class TerrainGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        seed = (int)UnityEngine.Random.Range(0.0f, 10000f);
         BeginTerrainGeneration();
     }
 
@@ -175,7 +176,6 @@ public class TerrainGenerator : MonoBehaviour
             float chunkOffset = (Chunk.chunkSize * voxelSize / 2f);
             GameObject newChunkGameObject = Instantiate(chunkPrefab, new Vector3(genX * chunkOffset - (Chunk.chunkSize * voxelSize / 2f * numberOfChunksX / 2f) - this.transform.position.x, this.transform.position.y, genZ * chunkOffset - (Chunk.chunkSize * voxelSize / 2f * numberOfChunksZ / 2f) - this.transform.position.z), Quaternion.identity);
             newChunkGameObject.transform.parent = this.transform;
-
             Chunk chunk = newChunkGameObject.GetComponent<Chunk>();
 
             chunks[genX].Add(chunk);
