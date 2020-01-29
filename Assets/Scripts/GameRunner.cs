@@ -446,7 +446,7 @@ public class GameRunner : MonoBehaviour {
 
 					if(otherShip != null) {
 						if(Vector3.Distance(rocket.transform.position, otherShip.transform.position) < rocketToShipCollisionDistance) {
-							if(rocket.orginShip != otherShip) {
+							if(rocket.orginShip != otherShip && rocket.orginShip.shipOwner != otherShip.shipOwner) {
 								otherShip.TakeDamage(1, false);
 								explode = true;
 							}

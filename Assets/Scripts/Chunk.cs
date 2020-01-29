@@ -622,6 +622,7 @@ public class Chunk : MonoBehaviour
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
         mesh.colors = colors.ToArray();
+        mesh.uv = uv.ToArray();
         mesh.Optimize();
         mesh.RecalculateNormals();
 
